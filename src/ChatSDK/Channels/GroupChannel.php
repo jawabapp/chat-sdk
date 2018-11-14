@@ -41,6 +41,10 @@ class GroupChannel
 
         #TODO Create mqtt_topic (grp/app-{id}/{creatorAccountId}_{now})
 
-        return $params;
+        return [
+            'ref_id' => 1,
+            'ref_name' => 'Ibraheem qanah',
+            'ref_avatar' => "http://",
+        ];
     }
 }
