@@ -12,20 +12,16 @@ use ChatSDK\Facades\Config;
 use GuzzleHttp\Client;
 use Exception;
 
-class UserChannel
+class TopicsChannel
 {
     public static function create($params) {
 
-        if(!Config::has('user_endpoint')) {
-            throw new Exception('The user endpoint is required.');
+        if(!Config::has('topics_endpoint')) {
+            throw new Exception('The topics endpoint is required.');
         }
 
         if(!Config::has('service_token')) {
             throw new Exception('The service token is required.');
-        }
-
-        if(empty($params['category_id'])) {
-            throw new Exception('The category id is required.');
         }
 
         if(empty($params['language'])) {
@@ -34,13 +30,10 @@ class UserChannel
 
         $client = new Client();
 
-        $response = $client->request('POST', Config::get('user_endpoint'), [
+        $response = $client->request('GET', Config::get('topics_endpoint'), [
             'headers' => [
                 'Accept-Token' => Config::get('service_token'),
                 'Accept-Language' => $params['language']
-            ],
-            'form_params' => [
-                'category_id' => $params['category_id']
             ]
         ]);
 
