@@ -27,7 +27,7 @@ class ReceiveChannel
             exit(1);
         }
 
-        $topics['grp/app-1/#'] = array(
+        $topics['grp/ser-1/#'] = array(
             "qos" => 1,
             "function" => function ($topic, $message) use ($handleMessage, $logs) {
 

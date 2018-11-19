@@ -9,18 +9,16 @@
 require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
 
 use ChatSDK\Facades\Config;
-use ChatSDK\Channels\GroupChannel;
+use ChatSDK\Channels\UserChannel;
 
 Config::make(array(
     'service_token' => 'token.token.token.token',
     'service_endpoint' => 'http://'
 ));
 
-$group = GroupChannel::create(array(
-    "account_id" => "sender-account-id",
+$group = UserChannel::create(array(
     "category_id" => "service-category-id",
-    "category_name" => "Doctor",
-    "category_image" => "http://"
+    "language" => "en"
 ));
 
 print_r($group);
