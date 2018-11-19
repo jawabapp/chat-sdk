@@ -48,12 +48,16 @@ class UserChannel
             throw new Exception('The remote endpoint could not be called, or the response it returned was invalid.');
         }
 
-        $content = json_decode($response->getBody()->getContents());
+        try {
+            $content = json_decode($response->getBody()->getContents());
 
-        return [
-            'ref_id' => $content->ref_id ,
-            'ref_name' => $content->ref_name,
-            'ref_avatar' => $content->ref_avatar,
-        ];
+            return [
+                'ref_id' => $content->ref_id ,
+                'ref_name' => $content->ref_name,
+                'ref_avatar' => $content->ref_avatar,
+            ];
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 }

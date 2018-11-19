@@ -14,7 +14,7 @@ use Exception;
 
 class TopicsChannel
 {
-    public static function create($params) {
+    public static function fetch($params) {
 
         if(!Config::has('topics_endpoint')) {
             throw new Exception('The topics endpoint is required.');
@@ -41,12 +41,22 @@ class TopicsChannel
             throw new Exception('The remote endpoint could not be called, or the response it returned was invalid.');
         }
 
-        $content = json_decode($response->getBody()->getContents());
+        try {
+            $content = json_decode($response->getBody()->getContents());
 
-        return [
-            'ref_id' => $content->ref_id ,
-            'ref_name' => $content->ref_name,
-            'ref_avatar' => $content->ref_avatar,
-        ];
+            $key = 0;
+            $items = [];
+
+            foreach ($content->items as $item) {
+                $items[$key]['id'] = $item->id;
+                $items[$key]['title'] = $item->title;
+
+                $key++;
+            }
+
+            return $items;
+        } catch (Exception $e) {
+            throw $e;
+        }
     }
 }
