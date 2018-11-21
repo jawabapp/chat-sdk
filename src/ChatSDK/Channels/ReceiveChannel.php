@@ -9,25 +9,29 @@
 namespace ChatSDK\Channels;
 
 use Bluerhinos\phpMQTT;
+use ChatSDK\Facades\Client;
+use Exception;
 
 class ReceiveChannel
 {
     public static function receive(callable $handleMessage, $logs = false) {
 
-        $server = "chat.jawab.app";     // change if necessary
-        $port = 1883;                     // change if necessary
-        $username = "";                   // set your username
-        $password = "";                   // set your password
+        Client::make();
 
-        $client_id = "phpMQTT-subscriber"; // make sure this is unique for connecting to sever - you could use uniqid()
+        $server = "chat.jawab.app";
+        $port = 1883;
+        $username = Client::get('mqtt_username');
+        $password = Client::get('mqtt_password');
+
+        $client_id = uniqid("service_" . Client::get('id') . "_");
 
         $mqtt = new phpMQTT($server, $port, $client_id);
 
-        if(!$mqtt->connect(true, NULL, $username, $password)) {
-            exit(1);
+        if(!$mqtt->connect(false, NULL, $username, $password)) {
+            throw new Exception('Connection failed!');
         }
 
-        $topics['grp/ser-1/#'] = array(
+        $topics['grp/srv-' . Client::get('id') . '/#'] = array(
             "qos" => 1,
             "function" => function ($topic, $message) use ($handleMessage, $logs) {
 
