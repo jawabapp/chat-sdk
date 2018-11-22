@@ -11,7 +11,7 @@ Config::make(array(
 
 ReceiveChannel::receive(function($message, $sender) {
 
-    echo $message;
-    echo $sender;
+    echo json_encode($message);
+    echo json_encode($sender);
 
 },true);

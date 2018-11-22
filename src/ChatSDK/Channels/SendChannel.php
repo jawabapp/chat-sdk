@@ -9,22 +9,30 @@
 namespace ChatSDK\Channels;
 
 use Bluerhinos\phpMQTT;
+use ChatSDK\Facades\Client;
+use Exception;
 
 class SendChannel
 {
+
+    private static function init() {
+        Client::make();
+    }
+
     public static function send($msg) {
-        echo $msg;
 
-        $server = "chat.jawab.app";     // change if necessary
-        $port = 1883;                     // change if necessary
-        $username = "";                   // set your username
-        $password = "";                   // set your password
+        self::init();
 
-        $client_id = "phpMQTT-publisher"; // make sure this is unique for connecting to sever - you could use uniqid()
+        $server = "chat.jawab.app";
+        $port = 1883;
+        $username = Client::get('mqtt_username');
+        $password = Client::get('mqtt_password');
+
+        $client_id = uniqid("service_" . Client::get('id') . "_");
 
         $mqtt = new phpMQTT($server, $port, $client_id);
 
-        if ($mqtt->connect(true, NULL, $username, $password)) {
+        if($mqtt->connect(true, NULL, $username, $password)) {
             $mqtt->publish("bluerhinos/phpMQTT/examples/publishtest", "Hello World! at " . date("r"), 0);
             $mqtt->close();
         } else {

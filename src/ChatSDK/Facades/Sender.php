@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: qanah
- * Date: 11/21/18
- * Time: 8:09 PM
+ * Date: 11/22/18
+ * Time: 8:31 AM
  */
 
 namespace ChatSDK\Facades;
@@ -12,14 +12,14 @@ use ChatSDK\Config\Repository;
 use GuzzleHttp\Client as HttpClient;
 use Exception;
 
-class Client extends Facade
+class Sender extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'client';
+        return 'sender';
     }
 
-    public static function make() {
+    public static function fetch($topic, $account_sender_id) {
 
         if(!Config::has('app_token')) {
             throw new Exception('The app token is required.');
@@ -29,9 +29,13 @@ class Client extends Facade
 
             $client = new HttpClient(['base_uri' => 'http://chat.jawab.app/api/']);
 
-            $response = $client->request('GET', 'service/info', [
+            $response = $client->request('POST', "service/sender/{$account_sender_id}", [
                 'headers' => [
+                    'Accept' => 'application/json',
                     'Accept-Token' => Config::get('app_token'),
+                ],
+                'form_params' => [
+                    'topic' => $topic
                 ]
             ]);
 

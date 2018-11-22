@@ -43,6 +43,16 @@ abstract class Facade
     }
 
     /**
+     * Check the root object behind the facade.
+     *
+     * @return bool
+     * @throws Exception
+     */
+    public static function hasFacadeRoot() {
+        return isset(static::$resolvedInstance[static::getFacadeAccessor()]);
+    }
+
+    /**
      * Get the registered name of the component.
      *
      * @return string
