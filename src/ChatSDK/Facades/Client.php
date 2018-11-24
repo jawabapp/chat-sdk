@@ -27,7 +27,7 @@ class Client extends Facade
 
         try {
 
-            $client = new HttpClient(['base_uri' => 'http://chat.jawab.app/api/']);
+            $client = new HttpClient(['base_uri' => 'http://' . Config::get('host') . '/api/']);
 
             $response = $client->request('GET', 'service/info', [
                 'headers' => [
@@ -42,6 +42,10 @@ class Client extends Facade
             $contents = json_decode($response->getBody()->getContents(), true);
 
             if(is_array($contents)) {
+                $contents['host'] = Config::get('host');
+                $contents['port'] = 1883;
+                $contents['client_id'] = uniqid("service_{$contents['id']}_");
+                $contents['topic_prefix'] = "grp/srv-{$contents['id']}";
                 static::swap(new Repository($contents));
             }
 

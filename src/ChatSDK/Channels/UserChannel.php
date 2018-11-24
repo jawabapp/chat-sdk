@@ -52,9 +52,9 @@ class UserChannel
             $content = json_decode($response->getBody()->getContents());
 
             return [
-                'ref_id' => $content->ref_id ,
-                'ref_name' => $content->ref_name,
-                'ref_avatar' => $content->ref_avatar,
+                'user_id' => $content->user_id ,
+                'user_name' => $content->user_name,
+                'user_avatar' => $content->user_avatar,
             ];
         } catch (Exception $e) {
             throw $e;

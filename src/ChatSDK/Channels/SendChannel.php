@@ -10,6 +10,7 @@ namespace ChatSDK\Channels;
 
 use Bluerhinos\phpMQTT;
 use ChatSDK\Facades\Client;
+use ChatSDK\Facades\Sender;
 use Exception;
 
 class SendChannel
@@ -19,25 +20,40 @@ class SendChannel
         Client::make();
     }
 
-    public static function send($msg) {
+    public static function send(int $ref_id, int $sender_id, string $topic, string $content_type, string $content) {
 
         self::init();
 
-        $server = "chat.jawab.app";
-        $port = 1883;
-        $username = Client::get('mqtt_username');
-        $password = Client::get('mqtt_password');
-
-        $client_id = uniqid("service_" . Client::get('id') . "_");
-
-        $mqtt = new phpMQTT($server, $port, $client_id);
-
-        if($mqtt->connect(true, NULL, $username, $password)) {
-            $mqtt->publish("bluerhinos/phpMQTT/examples/publishtest", "Hello World! at " . date("r"), 0);
-            $mqtt->close();
-        } else {
-            echo "Time out!\n";
+        if(!in_array($content_type, ['text', 'image'])){
+            throw new Exception('The content type must be (text,image)');
         }
+
+        if (strpos($topic, Client::get('topic_prefix') . '/') === 0) {
+            throw new Exception('Invalid topic prefix');
+        }
+
+        Sender::fetch($ref_id, $sender_id, $topic);
+
+        $mqtt = new phpMQTT(Client::get('host'), Client::get('port'), Client::get('client_id'));
+
+        if(!$mqtt->connect(true, NULL, Client::get('mqtt_username'), Client::get('mqtt_password'))) {
+            throw new Exception('Connection failed!');
+        }
+
+        $mqtt->publish($topic, [
+            "sender_id" => Sender::get('sender_id'),
+            "account_sender_id" => Sender::get('account_sender_id'),
+            "account_sender_nickname" => Sender::get('account_sender_nickname'),
+            "account_sender_avatar" => Sender::get('account_sender_avatar'),
+            "chat_id" => Sender::get('chat_id'),
+            "message_id" => Sender::get('chat_id') . "_" . time(),
+            "content" => $content,
+            "content_type" => $content_type,
+            "created_at" => time(),
+            "type" => "message"
+        ], 0);
+
+        $mqtt->close();
 
     }
 }

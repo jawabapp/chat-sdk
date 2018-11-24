@@ -10,7 +10,7 @@ namespace ChatSDK\Channels;
 
 use Bluerhinos\phpMQTT;
 use ChatSDK\Facades\Client;
-use ChatSDK\Facades\Sender;
+use ChatSDK\Facades\Receiver;
 use Exception;
 
 class ReceiveChannel
@@ -24,20 +24,13 @@ class ReceiveChannel
 
         self::init();
 
-        $server = "chat.jawab.app";
-        $port = 1883;
-        $username = Client::get('mqtt_username');
-        $password = Client::get('mqtt_password');
+        $mqtt = new phpMQTT(Client::get('host'), Client::get('port'), Client::get('client_id'));
 
-        $client_id = uniqid("service_" . Client::get('id') . "_");
-
-        $mqtt = new phpMQTT($server, $port, $client_id);
-
-        if(!$mqtt->connect(true, NULL, $username, $password)) {
+        if(!$mqtt->connect(true, NULL, Client::get('mqtt_username'), Client::get('mqtt_password'))) {
             throw new Exception('Connection failed!');
         }
 
-        $topics['grp/srv-' . Client::get('id') . '/#'] = array(
+        $topics[Client::get('topic_prefix') . '/#'] = array(
             "qos" => 1,
             "function" => function ($topic, $message) use ($handleMessage, $logs) {
 
@@ -58,7 +51,7 @@ class ReceiveChannel
                         echo "Topic: {$topic}\n";
                     }
 
-                    Sender::fetch($topic, $payload['account_sender_id']);
+                    Receiver::fetch($topic, $payload['account_sender_id']);
 
                     if(is_callable($handleMessage)) {
                         call_user_func(
@@ -66,11 +59,11 @@ class ReceiveChannel
                             array(
                                 'content_type' => $payload['content_type'],
                                 'content' => $payload['content'],
-                                'mode' => Sender::get('mode')
+                                'mode' => Receiver::get('mode')
                             ),
                             array(
-                                'nickname' => Sender::get('nickname'),
-                                'phone' => Sender::get('phone'),
+                                'nickname' => Receiver::get('nickname'),
+                                'phone' => Receiver::get('phone'),
                             )
                         );
                     }

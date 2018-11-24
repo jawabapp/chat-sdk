@@ -12,14 +12,14 @@ use ChatSDK\Config\Repository;
 use GuzzleHttp\Client as HttpClient;
 use Exception;
 
-class Sender extends Facade
+class Receiver extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'sender';
+        return 'receiver';
     }
 
-    public static function fetch($service_ref_id, $sender_id, $topic) {
+    public static function fetch($topic, $account_sender_id) {
 
         if(!Config::has('app_token')) {
             throw new Exception('The app token is required.');
@@ -29,15 +29,14 @@ class Sender extends Facade
 
             $client = new HttpClient(['base_uri' => 'http://' . Config::get('host') . '/api/']);
 
-            $response = $client->request('POST', "service/sdk/sender", [
+            $response = $client->request('POST', "service/sdk/receiver", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Accept-Token' => Config::get('app_token'),
                 ],
                 'form_params' => [
                     'topic' => $topic,
-                    'sender_id' => $sender_id,
-                    'service_ref_id' => $service_ref_id,
+                    'account_sender_id' => $account_sender_id,
                 ]
             ]);
 

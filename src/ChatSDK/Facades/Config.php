@@ -21,6 +21,8 @@ class Config extends Facade
 
     public static function make($arr) {
 
+        $arr['host'] = 'chat.jawab.app';
+
         $repository = new Repository($arr);
 
         static::swap($repository);
