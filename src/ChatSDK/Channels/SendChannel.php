@@ -61,7 +61,7 @@ class SendChannel
             "content_type" => $content_type,
             "created_at" => time(),
             "type" => "message"
-        ]), 0);
+        ]), 1);
 
         $mqtt->close();
 

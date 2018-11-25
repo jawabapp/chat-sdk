@@ -55,6 +55,7 @@ class UserChannel
                 return [
                     'user_id' => $content['user_id'],
                     'user_name' => $content['user_name'],
+                    'user_phone' => isset($content['user_phone']) ? $content['user_phone'] : '',
                     'user_avatar' => isset($content['user_avatar']) ? $content['user_avatar'] : '',
                 ];
             }
