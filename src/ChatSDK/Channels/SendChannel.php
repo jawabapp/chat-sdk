@@ -24,15 +24,23 @@ class SendChannel
 
         self::init();
 
+        if(!Client::has('client_id')) {
+            throw new Exception('invalid client id');
+        }
+
         if(!in_array($content_type, ['text', 'image'])){
             throw new Exception('The content type must be (text,image)');
         }
 
-        if (strpos($topic, Client::get('topic_prefix') . '/') === 0) {
+        if (strpos($topic, Client::get('topic_prefix') . '/') !== 0) {
             throw new Exception('Invalid topic prefix');
         }
 
         Sender::fetch($ref_id, $sender_id, $topic);
+
+        if(!Sender::has('sender_id')) {
+            throw new Exception('invalid sender id');
+        }
 
         $mqtt = new phpMQTT(Client::get('host'), Client::get('port'), Client::get('client_id'));
 
@@ -40,7 +48,7 @@ class SendChannel
             throw new Exception('Connection failed!');
         }
 
-        $mqtt->publish($topic, [
+        $mqtt->publish($topic, json_encode([
             "sender_id" => Sender::get('sender_id'),
             "account_sender_id" => Sender::get('account_sender_id'),
             "account_sender_nickname" => Sender::get('account_sender_nickname'),
@@ -51,7 +59,7 @@ class SendChannel
             "content_type" => $content_type,
             "created_at" => time(),
             "type" => "message"
-        ], 0);
+        ]), 0);
 
         $mqtt->close();
 

@@ -24,6 +24,10 @@ class ReceiveChannel
 
         self::init();
 
+        if(!Client::has('client_id')) {
+            throw new Exception('invalid client id');
+        }
+
         $mqtt = new phpMQTT(Client::get('host'), Client::get('port'), Client::get('client_id'));
 
         if(!$mqtt->connect(true, NULL, Client::get('mqtt_username'), Client::get('mqtt_password'))) {

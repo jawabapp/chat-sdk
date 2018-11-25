@@ -47,9 +47,11 @@ class Sender extends Facade
 
             $contents = json_decode($response->getBody()->getContents(), true);
 
-            if(is_array($contents)) {
-                static::swap(new Repository($contents));
+            if(!is_array($contents)) {
+                $contents = [];
             }
+
+            static::swap(new Repository($contents));
 
         } catch (Exception $e) {
             throw $e;

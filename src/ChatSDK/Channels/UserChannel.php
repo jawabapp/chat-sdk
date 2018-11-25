@@ -51,11 +51,16 @@ class UserChannel
         try {
             $content = json_decode($response->getBody()->getContents());
 
-            return [
-                'user_id' => $content->user_id ,
-                'user_name' => $content->user_name,
-                'user_avatar' => $content->user_avatar,
-            ];
+            if(!empty($content->user_id) && !empty($content->user_name)) {
+                return [
+                    'user_id' => $content->user_id ,
+                    'user_name' => $content->user_name,
+                    'user_avatar' => isset($content->user_avatar) ? $content->user_avatar : '',
+                ];
+            }
+
+            throw new Exception('invalid user endpoint response');
+
         } catch (Exception $e) {
             throw $e;
         }

@@ -44,17 +44,19 @@ class TopicsChannel
         try {
             $content = json_decode($response->getBody()->getContents());
 
-            $key = 0;
-            $items = [];
-
-            foreach ($content->items as $item) {
-                $items[$key]['id'] = $item->id;
-                $items[$key]['title'] = $item->title;
-
-                $key++;
+            if(isset($content->items) && is_array($content->items)) {
+                return array_map(function ($item) {
+                    return [
+                        'id' => $item->id,
+                        'title' => $item->title,
+                        'avatar' => isset($item->avatar) ? $item->avatar : '',
+                        'description' => isset($item->description) ? $item->description : '',
+                    ];
+                }, $content->items);
             }
 
-            return $items;
+            throw new Exception('invalid topics endpoint response');
+
         } catch (Exception $e) {
             throw $e;
         }

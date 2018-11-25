@@ -19,7 +19,7 @@ class Config extends Facade
         return 'config';
     }
 
-    public static function make($arr) {
+    public static function make(array $arr) {
 
         $arr['host'] = 'chat.jawab.app';
 

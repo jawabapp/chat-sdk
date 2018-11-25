@@ -41,13 +41,19 @@ class Client extends Facade
 
             $contents = json_decode($response->getBody()->getContents(), true);
 
-            if(is_array($contents)) {
-                $contents['host'] = Config::get('host');
-                $contents['port'] = 1883;
+            if(!is_array($contents)) {
+                $contents = [];
+            }
+
+            $contents['host'] = Config::get('host');
+            $contents['port'] = 1883;
+
+            if(isset($contents['id'])) {
                 $contents['client_id'] = uniqid("service_{$contents['id']}_");
                 $contents['topic_prefix'] = "grp/srv-{$contents['id']}";
-                static::swap(new Repository($contents));
             }
+
+            static::swap(new Repository($contents));
 
         } catch (Exception $e) {
             throw $e;
