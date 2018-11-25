@@ -42,17 +42,22 @@ class TopicsChannel
         }
 
         try {
-            $content = json_decode($response->getBody()->getContents());
+            $content = json_decode($response->getBody()->getContents(), true);
 
-            if(isset($content->items) && is_array($content->items)) {
+            if(!empty($content['items']) && is_array($content['items'])) {
                 return array_map(function ($item) {
+
+                    if(empty($item['id']) || empty($item['title'])) {
+                        throw new Exception('invalid topics endpoint response');
+                    }
+
                     return [
-                        'id' => $item->id,
-                        'title' => $item->title,
-                        'avatar' => isset($item->avatar) ? $item->avatar : '',
-                        'description' => isset($item->description) ? $item->description : '',
+                        'id' => $item['id'],
+                        'title' => $item['title'],
+                        'avatar' => isset($item['avatar']) ? $item['avatar'] : '',
+                        'description' => isset($item['description']) ? $item['description'] : '',
                     ];
-                }, $content->items);
+                }, $content['items']);
             }
 
             throw new Exception('invalid topics endpoint response');

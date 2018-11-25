@@ -19,7 +19,7 @@ class Sender extends Facade
         return 'sender';
     }
 
-    public static function fetch($service_ref_id, $sender_id, $topic) {
+    public static function fetch($service_ref_id, $service_sender_id, $topic) {
 
         if(!Config::has('app_token')) {
             throw new Exception('The app token is required.');
@@ -36,7 +36,7 @@ class Sender extends Facade
                 ],
                 'form_params' => [
                     'topic' => $topic,
-                    'sender_id' => $sender_id,
+                    'service_user_id' => $service_sender_id,
                     'service_ref_id' => $service_ref_id,
                 ]
             ]);
