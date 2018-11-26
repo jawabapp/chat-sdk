@@ -1,146 +1,135 @@
-## Solver Database Table
+# JawabChat App SDK
 
-#### AppTable
-```
-id, name, label, icon, app_token, service_token, service_endpoint, topics_endpoint
-```
+JawabChat is a chat application that you can integrate to your services easily to gain your structure a chat feature. This library will help you to integrate chat feature easily.
 
-#### UserSolverTable
-```
-jawab_chat_user_id, jawab_chat_account_id, service_user_id, service_name
-1, 1, user, 1002, jawabkom
-1, 1, user, 1225, jawabmehan
-```
+## Installation
 
-#### TopicSolverTable
-```
-jawab_chat_topic, service_object_id, service_name
-1_22333, 3322, jawabkom
-1_22332, 211, jawabmehan
-```
-
-## User Asking Question Flow
-
-- After clicking plus button we show the service list to user 
-- Mobile device connect to JawabChat API to get the services.
+you can use composer directly to install this library to your application:
 
 ```
-[
-    {
-        "id": "",
-        "name": "jawabkom",
-        "label": "Jawabmehan",
-        "icon": "",
-        "categoy_endpoint": "http://api.jawabkom.com/categories"
-    },
-    {
-        "id": "",
-        "name": "jawabmehan",
-        "label": "Jawabmehan",
-        "icon": "",
-        "categoy_endpoint": "http://api.jawabmehan.com/categories"
-    }
-]
+composer require jawabapp/chat-sdk:dev-master
 ```
 
-- Mobile fetch the categories to display the categories, which are coming from `categoy_endpoint`, to users.
+## Your Responsibilities
+
+Before using JawabChat application as service, your service needs to provide some features.
+
+#### Service Token
+
+We are expecting a service token as a string to be able to reach your services. We will send this token in the header as "Accept-Token" field to reach your endpoints.
+
+#### User API
+
+We need a user API to get your user information to our side. We will create a user for you to chat with your clients with this user.
+Your user phone will be our primary key of the service. You should send a unique user phone number.
+You need to create an API endpoint which is working with a service token, have already provided by you.
+
+We will send you a request to get user information like below:
+
+```
+$response = $client->request(
+    'POST',
+    '----user-enpoint----',                     // You need to provide us an user endpoint
+    [
+        'headers' => [
+            'Accept-Token' => '--service-token--',
+            'Accept-Language' => 'en'           // We get this language from topics
+        ],
+        'form_params' => [
+            'topic_id' => 1                     // should be integer
+        ]
+    ]
+);
+```
+
+The response of this API should be JSON and the structure should be like below:
 
 ```
 {
-    "id": "1",
-    "name": "Doctor",
-    "image": "?"
+    "user_id": integer,
+    "user_name": string,
+    "user_phone": string,
+    "user_avatar": url
 }
 ```
 
-- The user select the category. The mobile send a request to JawabChatAPI to get the participants.
+#### Topic List API
 
-``` 
-{
-    "account_id": "sender-account-id",
-    "app_id": "app-id",
-    "category_id": "service-category-id",
-    "category_name": "Doctor",
-    "category_image": "http://"
-}
-```
-
-- JawabChat application will request a participant from SDK if not ready JawabChat create a user for this category. Jawabkom return like below:
+We need a topic endpoint to handle topics of the chats. We will send a request to get the topics while creating a chat for you:
 
 ```
-{
-    ???????? - We need some solution on jawabkom side. We guess something this.
-    "id": "",
-    "name": "",
-    "avatar": "",
-    "uuid" : "jawabkom-user-id",
-}
+$response = $client->request(
+    'GET',
+    '--- topic-endpoint ---',               // You need to give us a user endpoint
+    [
+        'headers' => [
+            'Accept-Token' => '-- service-token --',
+            'Accept-Language' => 'en'       // We will use this for the application language. You need to translate topics' name according to language.
+        ]
+    ]
+);
 ```
-- JawabChat application will send the user information to Jawabkom services. Because Jawabkom services can listen this user messages over MQTT, by the way.
-- Jawabchat application will create a group chat with following datas:
+
+This endpoint should return a JSON response and the structure should be like below :
+
 ```
 {
-    "account_id": "creator account id", // coming from mobile side
-    "topic": "String {senderAccountId + _ + timestamp()}" // Generate the application,
-    "name": "{{jawabkom expert name or category_name}} John Red - Doctor",
-    "avatar": "{{jawabkom expert image or category_image}}",
-    "participants": [
-        {"account_id": "coming from participant request"}
+    "items": [
+        {
+            "id": integer,
+            "title": string,
+            "avatar" => url-as-string,
+            "description" => string
+        },
+        ...
     ]
 }
 ```
-- Then JawabChat application return a participants list and group information to mobile side.
-- Mobile will create a group chat page and show the user. And subscribe the topic.
-- The user start typing for question. Then mobile side send the message to MQTT.
-```
-"grp/{chat_id}" qos1
-{
-    "chat_id": "String (grp/app-{id}/{creatorAccountId}_{now})",
-    "content": String (base64 if image) (location: encoded string) (video: url)(audio: url)
-    "content_type": String {text, image, video, audio, location}
-    "sender_id": Int
-    "account_sender_id": Int,
-    "type": "message"
-}
-```
-- After sending messages, the user start waiting for answers.
 
-## Jawabkom Service Side
+## SDK Features
 
-- Jawabkom receive user information over SDK. Save the information to SDK side to use subscribe MQTT.
- (Note: We need to create a record for UserSolverTable)
+#### Send Channel
 
-- Jawabkom SDK receive a message from MQTT. 
+You can send a message to your users.
 
 ```
-{
-    "chat_id": "1_1222333",
-    "content": "foo bar"
-    "content_type": "text"
-    "sender_id": 1
-    "account_sender_id": 1,
-    "type": "message"
-}
-```
-- We need to check TopicSolverTable first if the question already created
-  - if created 
-    - SDK will resolve the object_id and create an answer for the solved question.
-  - if not create
-    - SDK need to solve over jawabkom side to create a question for sender_id and account_sender_id
-    - SDK create question for this message
-    - SDK need to create a record in the TopicSolverTable with chat_id (grp/app-{id}/{creatorAccountId}_{now})
+\ChatSDK\Facades\Config::make(array(
+    'app_token' => 'token.token.token.token',
+));
 
-- Some experts reply the messages.
-  - Jawabkom send the message to SDK 
+\ChatSDK\Channels\SendChannel::send(
+    1,                  // $sender_id => Your message sender id
+    'topic/1',          // $topic => Your group id which is coming after creating a UserChannel
+    'text',             // $content_type => This can be text, image, etc
+    'content'           // $content => Content of the messages as string
+);
 ```
-{
-    "object_id": "",
-    "content": "",
-    "content_type": "",
-    "sender_id": ""
-}
+
+#### Receive Channel
+
+You can receive the response of the user on JawabChat. For this, you only need a token:
+
 ```
-- After SDK getting the message
-  - SDK need to solve mqtt_sender_id and mqtt_sender_account_id for the mqtt message from sender_id.
-  - SDK need to solve the topic for the mqtt from object_id. 
-- SDK will publish the message to topic over mqtt.
+\ChatSDK\Facades\Config::make(array(
+    'app_token' => 'token.token.token.token',
+));
+
+\ChatSDK\Channels\ReceiveChannel::receive(function($message, $sender) {
+    echo json_encode($message);
+    echo json_encode($sender);
+},true);
+```
+
+Response Message Structure
+
+ - topic            string
+ - message_id       string
+ - content_type     [image, text]
+ - content          url (string)
+
+Response Sender Structure
+
+ - phone            string
+ - nickname         string
+
+This feature will work forever. Maybe, you need to work this feature as a service.
