@@ -61,6 +61,8 @@ class ReceiveChannel
                         call_user_func(
                             $handleMessage,
                             array(
+                                'topic' => $topic,
+                                'message_id' => $payload['message_id'],
                                 'content_type' => $payload['content_type'],
                                 'content' => $payload['content'],
                             ),
