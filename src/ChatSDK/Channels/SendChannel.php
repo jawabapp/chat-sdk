@@ -8,9 +8,9 @@
 
 namespace ChatSDK\Channels;
 
-use Bluerhinos\phpMQTT;
 use ChatSDK\Facades\Client;
 use ChatSDK\Facades\Sender;
+use ChatSDK\Support\MyPhpMQTT;
 use Exception;
 
 class SendChannel
@@ -42,7 +42,7 @@ class SendChannel
             throw new Exception('invalid sender id');
         }
 
-        $mqtt = new phpMQTT(Client::get('host'), Client::get('port'), Client::get('client_id'));
+        $mqtt = new MyPhpMQTT(Client::get('host'), Client::get('port'), Client::get('client_id'));
 
         if(!$mqtt->connect(true, NULL, Client::get('mqtt_username'), Client::get('mqtt_password'))) {
             throw new Exception('Connection failed!');
@@ -61,7 +61,7 @@ class SendChannel
             "content_type" => $content_type,
             "created_at" => time(),
             "type" => "message"
-        ]), 1);
+        ]), 0);
 
         $mqtt->close();
 

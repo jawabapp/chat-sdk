@@ -8,9 +8,9 @@
 
 namespace ChatSDK\Channels;
 
-use Bluerhinos\phpMQTT;
 use ChatSDK\Facades\Client;
 use ChatSDK\Facades\Receiver;
+use ChatSDK\Support\MyPhpMQTT;
 use Exception;
 
 class ReceiveChannel
@@ -24,18 +24,18 @@ class ReceiveChannel
 
         self::init();
 
-        if(!Client::has('client_id')) {
+        if(!Client::has('receive_client_id')) {
             throw new Exception('invalid client id');
         }
 
-        $mqtt = new phpMQTT(Client::get('host'), Client::get('port'), Client::get('client_id'));
+        $mqtt = new MyPhpMQTT(Client::get('host'), Client::get('port'), Client::get('receive_client_id'));
 
-        if(!$mqtt->connect(true, NULL, Client::get('mqtt_username'), Client::get('mqtt_password'))) {
+        if(!$mqtt->connect(false, NULL, Client::get('mqtt_username'), Client::get('mqtt_password'))) {
             throw new Exception('Connection failed!');
         }
 
         $topics[Client::get('topic_prefix') . '/#'] = array(
-            "qos" => 1,
+            "qos" => 0,
             "function" => function ($topic, $message) use ($handleMessage, $logs) {
 
                 try {
@@ -81,7 +81,7 @@ class ReceiveChannel
             }
         );
 
-        $mqtt->subscribe($topics, 1);
+        $mqtt->subscribe($topics, 0);
 
         while($mqtt->proc()) { }
 

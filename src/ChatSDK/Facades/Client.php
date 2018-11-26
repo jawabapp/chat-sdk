@@ -50,6 +50,7 @@ class Client extends Facade
 
             if(isset($contents['id'])) {
                 $contents['client_id'] = uniqid("service_{$contents['id']}_");
+                $contents['receive_client_id'] = "service_{$contents['id']}_receive";
                 $contents['topic_prefix'] = "grp/srv-{$contents['id']}";
             }
 
