@@ -9,4 +9,4 @@ Config::make(array(
     'app_token' => 'token.token.token.token',
 ));
 
-SendChannel::send(1, 790886, 'grp/srv-1/1_9_1543126263', 'text', 'i love you');
+SendChannel::send(790886, 'grp/srv-1/1_9_1543126263', 'text', 'i love you');

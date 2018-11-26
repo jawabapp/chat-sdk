@@ -20,7 +20,7 @@ class SendChannel
         Client::make();
     }
 
-    public static function send(int $ref_id, int $sender_id, string $topic, string $content_type, string $content) {
+    public static function send(int $sender_id, string $topic, string $content_type, string $content) {
 
         self::init();
 
@@ -36,7 +36,7 @@ class SendChannel
             throw new Exception('Invalid topic prefix');
         }
 
-        Sender::fetch($ref_id, $sender_id, $topic);
+        Sender::fetch($sender_id, $topic);
 
         if(!Sender::has('sender_id')) {
             throw new Exception('invalid sender id');
