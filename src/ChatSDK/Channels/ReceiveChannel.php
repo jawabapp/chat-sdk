@@ -63,7 +63,6 @@ class ReceiveChannel
                             array(
                                 'content_type' => $payload['content_type'],
                                 'content' => $payload['content'],
-                                'mode' => Receiver::get('mode')
                             ),
                             array(
                                 'nickname' => Receiver::get('nickname'),

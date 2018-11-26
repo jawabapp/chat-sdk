@@ -40,7 +40,7 @@ class UserChannel
                 'Accept-Language' => $params['language']
             ],
             'form_params' => [
-                'category_id' => $params['category_id']
+                'topic_id' => $params['topic_id']
             ]
         ]);
 
