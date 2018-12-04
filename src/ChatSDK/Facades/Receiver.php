@@ -9,7 +9,7 @@
 namespace ChatSDK\Facades;
 
 use ChatSDK\Config\Repository;
-use GuzzleHttp\Client as HttpClient;
+use ChatSDK\Support\HttpClient;
 use Exception;
 
 class Receiver extends Facade
@@ -27,7 +27,7 @@ class Receiver extends Facade
 
         try {
 
-            $client = new HttpClient(['base_uri' => 'http://' . Config::get('host') . '/api/']);
+            $client = new HttpClient();
 
             $response = $client->request('POST', "service/sdk/receiver", [
                 'headers' => [
