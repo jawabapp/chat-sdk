@@ -61,12 +61,21 @@ class ReceiveChannel
                         call_user_func(
                             $handleMessage,
                             array(
+                                //topic info
                                 'topic' => $topic,
                                 'message_id' => $payload['message_id'],
+
+                                //content info
                                 'content_type' => $payload['content_type'],
                                 'content' => $payload['content'],
+
+                                //ref info
+                                'ref_user_id' => Receiver::get('ref_user_id'),
+                                'ref_topic_id' => Receiver::get('ref_topic_id'),
+                                'ref_language' => Receiver::get('ref_language'),
                             ),
                             array(
+                                //sender info
                                 'nickname' => Receiver::get('nickname'),
                                 'phone' => Receiver::get('phone'),
                             )
