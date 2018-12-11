@@ -24,12 +24,12 @@ class UserChannel
             throw new Exception('The service token is required.');
         }
 
-        if(empty($params['category_id'])) {
-            throw new Exception('The category id is required.');
+        if(empty($params['ref_topic_id'])) {
+            throw new Exception('The ref topic id is required.');
         }
 
-        if(empty($params['language'])) {
-            throw new Exception('The language is required.');
+        if(empty($params['ref_language'])) {
+            throw new Exception('The ref language is required.');
         }
 
         $client = new Client();
@@ -37,10 +37,10 @@ class UserChannel
         $response = $client->request('POST', Config::get('user_endpoint'), [
             'headers' => [
                 'Accept-Token' => Config::get('service_token'),
-                'Accept-Language' => $params['language']
+                'Accept-Language' => $params['ref_language']
             ],
             'form_params' => [
-                'topic_id' => $params['topic_id']
+                'ref_topic_id' => $params['ref_topic_id']
             ]
         ]);
 
