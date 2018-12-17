@@ -20,7 +20,7 @@ class ReceiveChannel
         Client::make();
     }
 
-    public static function receive(callable $handleMessage, $logs = false) {
+    public static function receive(callable $handleMessage, $logs = false, $debug = false) {
 
         self::init();
 
@@ -30,6 +30,8 @@ class ReceiveChannel
 
         $mqtt = new MyPhpMQTT(Client::get('host'), Client::get('port'), Client::get('receive_client_id'));
 
+        $mqtt->debug = $debug;
+
         if(!$mqtt->connect(false, NULL, Client::get('mqtt_username'), Client::get('mqtt_password'))) {
             throw new Exception('Connection failed!');
         }
@@ -38,21 +40,44 @@ class ReceiveChannel
             "qos" => 0,
             "function" => function ($topic, $message) use ($handleMessage, $logs) {
 
+                if($logs) {
+                    echo "Msg Recieved: " . date("r") . "\n";
+                    echo "Topic: {$topic}" . "\n";
+                }
+
                 try {
+
                     $payload = json_decode($message, true);
 
+                    if(empty($payload)) {
+
+                        if($logs) {
+                            echo "Invalid Payload" . "\n";
+                        }
+
+                        return;
+                    }
+
                     if(empty($payload['account_sender_id'])) {
+
+                        if($logs) {
+                            echo "Invalid Payload [account_sender_id] is empty" . "\n";
+                        }
+
                         return;
                     }
 
                     if(empty($payload['type']) || $payload['type'] != 'message') {
+
+                        if($logs) {
+                            echo "Ignore Payload the type is not [message]" . "\n";
+                        }
+
                         return;
                     }
 
                     if($logs) {
-                        echo "\n";
-                        echo "Msg Recieved: " . date("r") . "\n";
-                        echo "Topic: {$topic}\n";
+                        echo "Start Payload Processing" . "\n";
                     }
 
                     Receiver::fetch($topic, $payload['account_sender_id']);
