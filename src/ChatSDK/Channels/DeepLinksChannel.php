@@ -8,6 +8,7 @@
 
 namespace ChatSDK\Channels;
 
+use ChatSDK\Facades\Client;
 use ChatSDK\Facades\Config;
 use ChatSDK\Support\HttpClient;
 use ChatSDK\Support\Topic;
@@ -28,11 +29,14 @@ class DeepLinksChannel
      */
     public static function generate_subscription_link(Topic $topic, $phone, $packageId, $link, $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
 
+        Client::make();
+
         $link = self::handle_url($link, [
+            'service_id' => Client::get('id'),
             'mode' => 'subscription',
-            'package_id' => $packageId,
             'topic' => $topic->getTopic(),
-            'phone' => $phone
+            'phone' => $phone,
+            'package_id' => $packageId,
         ]);
 
         return self::generate($link, $socialTitle, $socialDescription, $socialImageLink);
@@ -50,10 +54,13 @@ class DeepLinksChannel
      */
     public static function generate_chat_link(Topic $topic, $phone, $link, $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
 
+        Client::make();
+
         $link = self::handle_url($link, [
+            'service_id' => Client::get('id'),
             'mode' => 'chat',
+            'topic' => $topic->getTopic(),
             'phone' => $phone,
-            'topic' => $topic->getTopic()
         ]);
 
         return self::generate($link, $socialTitle, $socialDescription, $socialImageLink);
@@ -70,7 +77,10 @@ class DeepLinksChannel
      */
     public static function generate_login_link($phone, $link, $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
 
+        Client::make();
+
         $link = self::handle_url($link, [
+            'service_id' => Client::get('id'),
             'mode' => 'login',
             'phone' => $phone
         ]);
