@@ -16,11 +16,12 @@ Config::make([
 ]);
 
 $topic = new \ChatSDK\Support\Topic();
-$topic->generateTopic(1);
+//$topic->setTopic('grp/srv-1/45255077_5c1a63f832fca');
+$topic->generateTopic(45255077);
 
 $subscription_link = DeepLinksChannel::generate_subscription_link(
     $topic,
-    '+962799141272',
+    '+962786217262',
     1,
     'https://www.jawabkom.com/front/access/login_by_phone'
 );
