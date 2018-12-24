@@ -17,7 +17,7 @@ class HttpClient extends Client
 
     public function __construct(array $config = [])
     {
-        $config['base_uri'] = 'http://' . Config::get('host') . '/api/';
+        $config['base_uri'] = 'https://' . Config::get('host') . '/api/';
 
         parent::__construct($config);
     }
