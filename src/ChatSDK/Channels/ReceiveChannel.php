@@ -20,7 +20,7 @@ class ReceiveChannel
         Client::make();
     }
 
-    public static function receive(callable $handleMessage, $logs = false, $debug = false) {
+    public static function receive(callable $handleMessage, callable $handleHistory, $logs = false, $debug = false) {
 
         self::init();
 
@@ -38,7 +38,7 @@ class ReceiveChannel
 
         $topics[Client::get('topic_prefix') . '/#'] = array(
             "qos" => 0,
-            "function" => function ($topic, $message) use ($handleMessage, $logs) {
+            "function" => function ($topic, $message) use ($handleMessage, $handleHistory, $logs) {
 
                 if($logs) {
                     echo "Msg Recieved: " . date("r") . "\n";
@@ -49,7 +49,7 @@ class ReceiveChannel
 
                     $payload = json_decode($message, true);
 
-                    if(empty($payload)) {
+                    if(empty($payload) || empty($payload['type'])) {
 
                         if($logs) {
                             echo "Invalid Payload" . "\n";
@@ -67,10 +67,19 @@ class ReceiveChannel
                         return;
                     }
 
-                    if(empty($payload['type']) || $payload['type'] != 'message') {
+                    if(!in_array($payload['type'], ['message', 'history'])) {
 
                         if($logs) {
-                            echo "Ignore Payload the type is not [message]" . "\n";
+                            echo "Ignore Payload the type is not allowed" . "\n";
+                        }
+
+                        return;
+                    }
+
+                    if(!empty($payload['published_form_sdk'])) {
+
+                        if($logs) {
+                            echo "Ignore Payload this published form sdk" . "\n";
                         }
 
                         return;
@@ -82,29 +91,51 @@ class ReceiveChannel
 
                     Receiver::fetch($topic, $payload['account_sender_id']);
 
-                    if(is_callable($handleMessage)) {
-                        call_user_func(
-                            $handleMessage,
-                            array(
-                                //topic info
-                                'topic' => $topic,
-                                'message_id' => $payload['message_id'],
+                    switch ($payload['type']) {
+                        case 'message':
+                            if(is_callable($handleMessage)) {
+                                call_user_func(
+                                    $handleMessage,
+                                    array(
+                                        //topic info
+                                        'topic' => $topic,
+                                        'message_id' => $payload['message_id'],
 
-                                //content info
-                                'content_type' => $payload['content_type'],
-                                'content' => $payload['content'],
+                                        //content info
+                                        'content_type' => $payload['content_type'],
+                                        'content' => $payload['content'],
 
-                                //ref info
-                                'ref_user_id' => Receiver::get('ref_user_id'),
-                                'ref_topic_id' => Receiver::get('ref_topic_id'),
-                                'ref_language' => Receiver::get('ref_language'),
-                            ),
-                            array(
-                                //sender info
-                                'nickname' => Receiver::get('nickname'),
-                                'phone' => Receiver::get('phone'),
-                            )
-                        );
+                                        //ref info
+                                        'ref_user_id' => Receiver::get('ref_user_id'),
+                                        'ref_topic_id' => Receiver::get('ref_topic_id'),
+                                        'ref_language' => Receiver::get('ref_language'),
+                                    ),
+                                    array(
+                                        //sender info
+                                        'nickname' => Receiver::get('nickname'),
+                                        'phone' => Receiver::get('phone'),
+                                    )
+                                );
+                            }
+                            break;
+
+                        case 'history':
+                            if(is_callable($handleHistory)) {
+                                call_user_func(
+                                    $handleHistory,
+                                    array(
+                                        //topic info
+                                        'topic' => $topic,
+                                        'message_id' => $payload['message_id'],
+                                    ),
+                                    array(
+                                        //sender info
+                                        'nickname' => Receiver::get('nickname'),
+                                        'phone' => Receiver::get('phone'),
+                                    )
+                                );
+                            }
+                            break;
                     }
 
                 } catch (Exception $e) {
