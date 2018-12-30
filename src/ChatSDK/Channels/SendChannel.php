@@ -20,7 +20,7 @@ class SendChannel
         Client::make();
     }
 
-    public static function send(string $phone, string $topic, string $content_type, string $content) {
+    public static function send($phone, $topic, $content_type, $content) {
 
         self::init();
 
@@ -51,6 +51,7 @@ class SendChannel
         $chat_id = str_replace(Client::get('topic_prefix') . '/', '', $topic);
 
         $mqtt->publish($topic, json_encode([
+            "published_form_sdk" => true,
             "sender_id" => Sender::get('sender_id'),
             "account_sender_id" => Sender::get('account_sender_id'),
             "account_sender_nickname" => Sender::get('account_sender_nickname'),
