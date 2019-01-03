@@ -48,16 +48,14 @@ class SendChannel
             throw new Exception('Connection failed!');
         }
 
-        $chat_id = str_replace(Client::get('topic_prefix') . '/', '', $topic);
-
         $mqtt->publish($topic, json_encode([
             "published_form_sdk" => true,
             "sender_id" => Sender::get('sender_id'),
             "account_sender_id" => Sender::get('account_sender_id'),
             "account_sender_nickname" => Sender::get('account_sender_nickname'),
             "account_sender_avatar" => Sender::get('account_sender_avatar'),
-            "chat_id" => $chat_id,
-            "message_id" => $chat_id . "_" . time(),
+            "chat_id" => $topic,
+            "message_id" => $topic . "_" . time(),
             "content" => $content,
             "content_type" => $content_type,
             "created_at" => time(),
