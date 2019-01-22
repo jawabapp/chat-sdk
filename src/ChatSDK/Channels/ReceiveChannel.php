@@ -112,6 +112,7 @@ class ReceiveChannel
                                     ),
                                     array(
                                         //sender info
+                                        'sender_id' => $payload['sender_id'],
                                         'nickname' => Receiver::get('nickname'),
                                         'phone' => Receiver::get('phone'),
                                     )
@@ -130,6 +131,7 @@ class ReceiveChannel
                                     ),
                                     array(
                                         //sender info
+                                        'sender_id' => $payload['sender_id'],
                                         'nickname' => Receiver::get('nickname'),
                                         'phone' => Receiver::get('phone'),
                                     )
