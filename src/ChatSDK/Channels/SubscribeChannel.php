@@ -24,8 +24,8 @@ class SubscribeChannel
             throw new Exception('The service token is required.');
         }
 
-        if(empty($params['ref_language'])) {
-            throw new Exception('The ref language is required.');
+        if(empty($params['transaction_id'])) {
+            throw new Exception('The transaction id is required.');
         }
 
         $client = new Client();
@@ -35,7 +35,48 @@ class SubscribeChannel
                 'Accept-Token' => Config::get('service_token'),
             ],
             'form_params' => [
-                'ref_topic_id' => $params['ref_topic_id']
+                'user_phone' => $params['user_phone'],
+                'user_nickname' => $params['user_nickname'],
+                'os' => $params['os'],
+                'device_info' => $params['device_info'],
+                'purchased_at' => $params['purchased_at'],
+                'expired_at' => $params['expired_at'],
+                'product_id' => $params['product_id'],
+                'transaction_id' => $params['transaction_id'],
+                'price_currency' => $params['price_currency'],
+                'price_amount' => $params['price_amount'],
+            ]
+        ]);
+
+        if($response->getStatusCode() != 200) {
+            throw new Exception('The remote endpoint could not be called, or the response it returned was invalid.');
+        }
+
+        return true;
+    }
+
+    public static function check($params) {
+
+        if(!Config::has('user_endpoint')) {
+            throw new Exception('The user endpoint is required.');
+        }
+
+        if(!Config::has('service_token')) {
+            throw new Exception('The service token is required.');
+        }
+
+        if(empty($params['user_phone'])) {
+            throw new Exception('The phone is required.');
+        }
+
+        $client = new Client();
+
+        $response = $client->request('POST', Config::get('subscribe_check_endpoint'), [
+            'headers' => [
+                'Accept-Token' => Config::get('service_token'),
+            ],
+            'form_params' => [
+                'user_phone' => $params['user_phone'],
             ]
         ]);
 
@@ -44,21 +85,14 @@ class SubscribeChannel
         }
 
         try {
+
             $content = json_decode($response->getBody()->getContents(), true);
 
-            if(!empty($content['user_id']) && !empty($content['user_name'])) {
-                return [
-                    'user_id' => $content['user_id'],
-                    'user_name' => $content['user_name'],
-                    'user_phone' => isset($content['user_phone']) ? $content['user_phone'] : '',
-                    'user_avatar' => isset($content['user_avatar']) ? $content['user_avatar'] : '',
-                ];
-            }
-
-            throw new Exception('invalid user endpoint response');
+            return isset($content['is_subscribe']) ?  boolval($content['is_subscribe']) : false;
 
         } catch (Exception $e) {
             throw $e;
         }
     }
+
 }
