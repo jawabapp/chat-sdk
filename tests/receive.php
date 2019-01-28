@@ -14,4 +14,9 @@ ReceiveChannel::receive(function($message, $sender) {
     echo json_encode($message);
     echo json_encode($sender);
 
+},function($message, $sender) {
+
+    echo json_encode($message);
+    echo json_encode($sender);
+
 },true);
