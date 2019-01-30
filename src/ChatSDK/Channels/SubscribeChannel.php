@@ -45,6 +45,7 @@ class SubscribeChannel
                 'transaction_id' => $params['transaction_id'],
                 'price_currency' => $params['price_currency'],
                 'price_amount' => $params['price_amount'],
+                'notification_type' => $params['notification_type'],
             ]
         ]);
 
