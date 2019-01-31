@@ -18,31 +18,35 @@ Config::make([
 $topic = new \ChatSDK\Support\Topic();
 
 //if qoustion id exist in table
-$topic->setTopic('grp/srv-1/45255077_5c1a63f832fca');
+$topic->setTopic('grp/srv-2/45255077_5c1a63f832fca');
 //$topic->generateTopic(45255077);
 
 $subscription_link = DeepLinksChannel::generate_subscription_link(
     $topic,
     '+962799141272',
     1,
-    'https://www.jawabkom.com/front/access/login_by_phone'
+    'https://www.jawabkom.com/front/access/login_by_phone',
+    array('aa'=>1,'bb'=>2)
 );
 
-$chat_link = DeepLinksChannel::generate_chat_link(
-    $topic,
-    '+962799141272',
-    'https://www.jawabkom.com/front/access/login_by_phone'
-);
-
-$login_link = DeepLinksChannel::generate_login_link(
-    '+962799141272',
-    'https://www.jawabkom.com/front/access/login_by_phone'
-);
+//$chat_link = DeepLinksChannel::generate_chat_link(
+//    $topic,
+//    '+962799141272',
+//    'https://www.jawabkom.com/front/access/login_by_phone'
+//);
+//
+//$login_link = DeepLinksChannel::generate_login_link(
+//    '+962799141272',
+//    'https://www.jawabkom.com/front/access/login_by_phone'
+//);
 
 echo "\n";
+
 echo $subscription_link;
 echo "\n";
-echo $chat_link;
-echo "\n";
-echo $login_link;
-echo "\n";
+
+//echo $chat_link;
+//echo "\n";
+
+//echo $login_link;
+//echo "\n";
