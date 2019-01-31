@@ -21,23 +21,24 @@ class DeepLinksChannel
      * @param $phone
      * @param $packageId
      * @param $link
+     * @param $placeholders
      * @param string $socialTitle
      * @param string $socialDescription
      * @param string $socialImageLink
      * @return mixed
      * @throws Exception | \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_subscription_link(Topic $topic, $phone, $packageId, $link, $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
+    public static function generate_subscription_link(Topic $topic, $phone, $packageId, $link, $placeholders = array(), $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
 
         Client::make();
 
-        $link = self::handle_url($link, [
+        $link = self::handle_url($link, self::handle_placeholders($placeholders, array(
             'service_id' => Client::get('id'),
             'mode' => 'subscription',
             'topic' => $topic->getTopic(),
             'phone' => $phone,
             'package_id' => $packageId,
-        ]);
+        )));
 
         return self::generate($link, $socialTitle, $socialDescription, $socialImageLink);
     }
@@ -46,22 +47,23 @@ class DeepLinksChannel
      * @param Topic $topic
      * @param $phone
      * @param $link
+     * @param $placeholders
      * @param string $socialTitle
      * @param string $socialDescription
      * @param string $socialImageLink
      * @return mixed
      * @throws Exception | \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_chat_link(Topic $topic, $phone, $link, $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
+    public static function generate_chat_link(Topic $topic, $phone, $link, $placeholders = array(), $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
 
         Client::make();
 
-        $link = self::handle_url($link, [
+        $link = self::handle_url($link, self::handle_placeholders($placeholders, array(
             'service_id' => Client::get('id'),
             'mode' => 'chat',
             'topic' => $topic->getTopic(),
             'phone' => $phone,
-        ]);
+        )));
 
         return self::generate($link, $socialTitle, $socialDescription, $socialImageLink);
     }
@@ -69,13 +71,14 @@ class DeepLinksChannel
     /**
      * @param $phone
      * @param $link
+     * @param $placeholders
      * @param string $socialTitle
      * @param string $socialDescription
      * @param string $socialImageLink
      * @return mixed
      * @throws Exception | \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_login_link($phone, $link, $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
+    public static function generate_login_link($phone, $link, $placeholders = array(), $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
 
         Client::make();
 
@@ -84,6 +87,12 @@ class DeepLinksChannel
             'mode' => 'login',
             'phone' => $phone
         ]);
+
+        $link = self::handle_url($link, self::handle_placeholders($placeholders, array(
+            'service_id' => Client::get('id'),
+            'mode' => 'login',
+            'phone' => $phone
+        )));
 
         return self::generate($link, $socialTitle, $socialDescription, $socialImageLink);
 
@@ -167,6 +176,26 @@ class DeepLinksChannel
         $out_url .= '?' . http_build_query($query_string_array);
 
         return $out_url;
+    }
+
+    private static function handle_placeholders($placeholders, $params) {
+
+        if(!is_array($placeholders)) {
+            $placeholders = array();
+        }
+
+        if(!is_array($params)) {
+            $params = array();
+        }
+
+        $new_placeholders = array();
+
+        foreach ($placeholders as $key => $value) {
+            $key = strtoupper($key);
+            $new_placeholders["__{$key}__"] = $value;
+        }
+
+        return array_merge($params, $new_placeholders);
     }
 }
 
