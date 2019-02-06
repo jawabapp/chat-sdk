@@ -17,18 +17,45 @@ use Exception;
 class DeepLinksChannel
 {
     /**
-     * @param $topic
+     * @param Topic $topic
+     * @param $phone
+     * @param $isSubscribed
+     * @param $packageId
+     * @param $link
+     * @param array $placeholders
+     * @param array $analyticsInfo
+     * @param array $socialInfo
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public static function generate_auth_subscription_link(Topic $topic, $phone, $isSubscribed, $packageId, $link, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+
+        Client::make();
+
+        $link = self::handle_url($link, self::handle_placeholders($placeholders, array(
+            'service_id' => Client::get('id'),
+            'mode' => 'auth-subscription',
+            'topic' => $topic->getTopic(),
+            'phone' => $phone,
+            'is_subscribed' => $isSubscribed,
+            'package_id' => $packageId,
+        )));
+
+        return self::generate($link, $analyticsInfo, $socialInfo);
+    }
+
+    /**
+     * @param Topic $topic
      * @param $phone
      * @param $packageId
      * @param $link
-     * @param $placeholders
-     * @param string $socialTitle
-     * @param string $socialDescription
-     * @param string $socialImageLink
+     * @param array $placeholders
+     * @param array $analyticsInfo
+     * @param array $socialInfo
      * @return mixed
-     * @throws Exception | \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_subscription_link(Topic $topic, $phone, $packageId, $link, $placeholders = array(), $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
+    public static function generate_subscription_link(Topic $topic, $phone, $packageId, $link, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
 
         Client::make();
 
@@ -40,21 +67,20 @@ class DeepLinksChannel
             'package_id' => $packageId,
         )));
 
-        return self::generate($link, $socialTitle, $socialDescription, $socialImageLink);
+        return self::generate($link, $analyticsInfo, $socialInfo);
     }
 
     /**
      * @param Topic $topic
      * @param $phone
      * @param $link
-     * @param $placeholders
-     * @param string $socialTitle
-     * @param string $socialDescription
-     * @param string $socialImageLink
+     * @param array $placeholders
+     * @param array $analyticsInfo
+     * @param array $socialInfo
      * @return mixed
-     * @throws Exception | \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_chat_link(Topic $topic, $phone, $link, $placeholders = array(), $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
+    public static function generate_chat_link(Topic $topic, $phone, $link, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
 
         Client::make();
 
@@ -65,28 +91,21 @@ class DeepLinksChannel
             'phone' => $phone,
         )));
 
-        return self::generate($link, $socialTitle, $socialDescription, $socialImageLink);
+        return self::generate($link, $analyticsInfo, $socialInfo);
     }
 
     /**
      * @param $phone
      * @param $link
-     * @param $placeholders
-     * @param string $socialTitle
-     * @param string $socialDescription
-     * @param string $socialImageLink
+     * @param array $placeholders
+     * @param array $analyticsInfo
+     * @param array $socialInfo
      * @return mixed
-     * @throws Exception | \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_login_link($phone, $link, $placeholders = array(), $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
+    public static function generate_login_link($phone, $link, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
 
         Client::make();
-
-        $link = self::handle_url($link, [
-            'service_id' => Client::get('id'),
-            'mode' => 'login',
-            'phone' => $phone
-        ]);
 
         $link = self::handle_url($link, self::handle_placeholders($placeholders, array(
             'service_id' => Client::get('id'),
@@ -94,19 +113,18 @@ class DeepLinksChannel
             'phone' => $phone
         )));
 
-        return self::generate($link, $socialTitle, $socialDescription, $socialImageLink);
+        return self::generate($link, $analyticsInfo, $socialInfo);
 
     }
 
     /**
      * @param $link
-     * @param string $socialTitle
-     * @param string $socialDescription
-     * @param string $socialImageLink
+     * @param array $analyticsInfo
+     * @param array $socialInfo
      * @return mixed
-     * @throws Exception | \GuzzleHttp\Exception\GuzzleException
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private static function generate($link, $socialTitle = '', $socialDescription = '', $socialImageLink = '') {
+    private static function generate($link, $analyticsInfo = array(), $socialInfo = array()) {
 
         $client = new HttpClient();
 
@@ -117,9 +135,19 @@ class DeepLinksChannel
             ],
             'form_params' => [
                 'link' => $link,
-                'socialTitle' => $socialTitle,
-                'socialDescription' => $socialDescription,
-                'socialImageLink' => $socialImageLink
+                'socialTitle' => isset($socialInfo['title']) ? $socialInfo['title'] : '',
+                'socialDescription' => isset($socialInfo['description']) ? $socialInfo['description'] : '',
+                'socialImageLink' => isset($socialInfo['image_link']) ? $socialInfo['image_link'] : '',
+                'analyticsUtmSource' => isset($analyticsInfo['utm_source']) ? $analyticsInfo['utm_source'] : '',
+                'analyticsUtmMedium' => isset($analyticsInfo['utm_medium']) ? $analyticsInfo['utm_medium'] : '',
+                'analyticsUtmCampaign' => isset($analyticsInfo['utm_campaign']) ? $analyticsInfo['utm_campaign'] : '',
+                'analyticsUtmTerm' => isset($analyticsInfo['utm_term']) ? $analyticsInfo['utm_term'] : '',
+                'analyticsUtmContent' => isset($analyticsInfo['utm_content']) ? $analyticsInfo['utm_content'] : '',
+                'analyticsGClId' => isset($analyticsInfo['gclid']) ? $analyticsInfo['gclid'] : '',
+                'analyticsItunesAT' => isset($analyticsInfo['itunes_at']) ? $analyticsInfo['itunes_at'] : '',
+                'analyticsItunesCT' => isset($analyticsInfo['itunes_ct']) ? $analyticsInfo['itunes_ct'] : '',
+                'analyticsItunesMT' => isset($analyticsInfo['itunes_mt']) ? $analyticsInfo['itunes_mt'] : '8',
+                'analyticsItunesPT' => isset($analyticsInfo['itunes_pt']) ? $analyticsInfo['itunes_pt'] : '',
             ]
         ]);
 
@@ -178,6 +206,11 @@ class DeepLinksChannel
         return $out_url;
     }
 
+    /**
+     * @param $placeholders
+     * @param $params
+     * @return array
+     */
     private static function handle_placeholders($placeholders, $params) {
 
         if(!is_array($placeholders)) {
