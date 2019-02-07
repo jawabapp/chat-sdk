@@ -37,6 +37,7 @@ class SubscribeChannel
             'form_params' => [
                 'user_phone' => $params['user_phone'],
                 'user_nickname' => $params['user_nickname'],
+                'user_topics' => $params['topics'],
                 'os' => $params['os'],
                 'device_info' => $params['device_info'],
                 'purchased_at' => $params['purchased_at'],
