@@ -21,7 +21,7 @@ $topic = new \ChatSDK\Support\Topic();
 $topic->setTopic('grp/srv-2/45255077_5c1a63f832fca');
 //$topic->generateTopic(45255077);
 
-$auth_subscription_link = DeepLinksChannel::generate_auth_subscription_link(
+$auth_subscription_link = DeepLinksChannel::generate_shortcut_subscription_link(
     $topic,
     '+962799141272',
     1,
