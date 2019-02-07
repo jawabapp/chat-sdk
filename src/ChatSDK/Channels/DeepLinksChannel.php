@@ -28,13 +28,13 @@ class DeepLinksChannel
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_auth_subscription_link(Topic $topic, $phone, $isSubscribed, $packageId, $link, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+    public static function generate_shortcut_subscription_link(Topic $topic, $phone, $isSubscribed, $packageId, $link, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
 
         Client::make();
 
         $link = self::handle_url($link, self::handle_placeholders($placeholders, array(
             'service_id' => Client::get('id'),
-            'mode' => 'auth-subscription',
+            'mode' => 'subscription-shortcut',
             'topic' => $topic->getTopic(),
             'phone' => $phone,
             'is_subscribed' => $isSubscribed,
