@@ -24,8 +24,8 @@ $topic->setTopic('grp/srv-1/45255077_5c1a63f832fca');
 $auth_subscription_link = DeepLinksChannel::generate_shortcut_subscription_link(
     $topic,
     '+962799141272',
-    1,
-    1,
+    0,
+    4,
     'https://www.jawabkom.com/front/access/login_by_phone',
     array('aa'=>1,'bb'=>2)
 );
