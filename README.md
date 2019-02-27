@@ -133,3 +133,78 @@ Response Sender Structure
  - nickname         string
 
 This feature will work forever. Maybe, you need to work this feature as a service.
+
+
+## Supervisor
+http://supervisord.org/index.html
+```
+sudo add-apt-repository universe
+sudo apt-get update
+sudo apt-get install supervisor
+```
+
+### Adding a Program
+The program configuration files for Supervisor programs are found in the /etc/supervisor/conf.d directory, normally with one program per file and a .conf extension. 
+A simple configuration for our script, saved at /etc/supervisor/conf.d/chat_receiver.conf, would look like so:
+
+```
+[program:chat_receiver]
+command=php tests/receive.php
+autostart=true
+autorestart=true
+user=root
+numprocs=1
+stderr_logfile=/var/log/chat_receiver.err.log
+stdout_logfile=/var/log/chat_receiver.out.log
+```
+Once our configuration file is created and saved, we can inform Supervisor of our new program through the supervisorctl command. First we tell Supervisor to look for any new or changed program configurations in the /etc/supervisor/conf.d directory with:
+```
+supervisorctl reread
+```
+Followed by telling it to enact any changes with:
+```
+supervisorctl update
+```
+Any time you make a change to any program configuration file, running the two previous commands will bring the changes into effect. 
+
+Managing Programs
+
+Once our programs are running, there will undoubtedly be a time when we want to stop, restart, or see their status. The supervisorctl program, which we first used above, also has an interactive mode through which we can issue commands to control our programs.
+
+To enter the interactive mode, start supervisorctl with no arguments:
+```
+$ supervisorctl
+chat_receiver                      RUNNING    pid 12614, uptime 1:49:37
+supervisor>
+```
+When started, supervisorctl will initially print the status and uptime of all programs, followed by showing a command prompt. Entering help will reveal all of the available commands that we can use:
+
+supervisor> help
+```
+default commands (type help ):
+=====================================
+add    clear  fg        open  quit    remove  restart   start   stop  update
+avail  exit   maintail  pid   reload  reread  shutdown  status  tail  version
+```
+
+To start in a simple manner, we can start, stop and restart a program with the associated commands followed by the program name:
+```
+supervisor> stop chat_receiver
+chat_receiver: stopped
+supervisor> start chat_receiver
+chat_receiver: started
+supervisor> restart chat_receiver
+chat_receiver: stopped
+chat_receiver: started
+```
+
+Using status we can view again the current execution state of each program after making any changes:
+```
+supervisor> status
+chat_receiver                      STOPPED    Jul 21 01:07 AM
+```
+Finally, once we are finished, we can exit supervisorctl with Ctrl-C or by entering quit into the prompt:
+```
+supervisor> quit
+```
+And that's it! You've mastered the basics of managing persistent programs through Supervisor and extending this to your own programs should be a relatively simple task. If you have any questions or further advice, be sure to leave it in the comments section.
