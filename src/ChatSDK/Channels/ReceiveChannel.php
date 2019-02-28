@@ -22,17 +22,6 @@ class ReceiveChannel
 
     public static function receive(callable $handleMessage, callable $handleHistory, $logs = false, $debug = false) {
 
-        // Ignore user aborts and allow the script
-        // to run forever
-        ignore_user_abort(true);
-        set_time_limit(0);
-
-        $hLock = fopen(__FILE__.".lock", "w+");
-
-        if(!flock($hLock, LOCK_EX | LOCK_NB)) {
-            die('Already running. Exiting...' . "\n");
-        }
-
         self::init();
 
         if(!Client::has('receive_client_id')) {
@@ -163,9 +152,5 @@ class ReceiveChannel
         while($mqtt->proc()) { }
 
         $mqtt->close();
-
-        flock($hLock, LOCK_UN);
-        fclose($hLock);
-        unlink(__FILE__.".lock");
     }
 }
