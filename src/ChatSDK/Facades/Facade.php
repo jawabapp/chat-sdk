@@ -10,6 +10,12 @@ namespace ChatSDK\Facades;
 
 use Exception;
 
+/**
+ * Class Facade
+ * @method static has($key)
+ * @method static get($key)
+ * @package ChatSDK\Facades
+ */
 abstract class Facade
 {
     /**
