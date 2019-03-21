@@ -50,6 +50,14 @@ class SearchChannel
                 $queryParams = array_merge($params, $queryParams);
             }
 
+            if (!empty($params['per_page'])) {
+                $queryParams['per_page'] = $params['per_page'];
+            }
+
+            if (!empty($params['page'])) {
+                $queryParams['page'] = $params['page'];
+            }
+
             $response = $client->request('GET', Config::get('products_endpoint'), [
                 'headers' => [
                     'Accept-Token' => Config::get('service_token'),
