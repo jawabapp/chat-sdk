@@ -29,7 +29,7 @@ class Sender extends Facade
 
             $client = new HttpClient();
 
-            $response = $client->request('POST', "service/sdk/sender", [
+            $response = $client->request('POST', "sdk/sender", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Accept-Token' => Config::get('app_token'),
