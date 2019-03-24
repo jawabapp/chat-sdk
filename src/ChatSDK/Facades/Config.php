@@ -21,7 +21,9 @@ class Config extends Facade
 
     public static function make(array $arr) {
 
-        $arr['host'] = 'chat.jawab.app';
+        if(empty($arr['host'])) {
+            $arr['host'] = 'chat.jawab.app';
+        }
 
         $repository = new Repository($arr);
 

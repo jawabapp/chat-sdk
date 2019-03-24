@@ -29,7 +29,7 @@ class Receiver extends Facade
 
             $client = new HttpClient();
 
-            $response = $client->request('POST', "service/sdk/receiver", [
+            $response = $client->request('POST', "sdk/receiver", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Accept-Token' => Config::get('app_token'),

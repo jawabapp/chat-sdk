@@ -128,7 +128,7 @@ class DeepLinksChannel
 
         $client = new HttpClient();
 
-        $response = $client->request('POST', 'service/sdk/deep-link', [
+        $response = $client->request('POST', 'sdk/deep-link', [
             'headers' => [
                 'Accept' => 'application/json',
                 'Accept-Token' => Config::get('app_token'),

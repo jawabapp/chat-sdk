@@ -29,7 +29,7 @@ class Client extends Facade
 
             $client = new HttpClient();
 
-            $response = $client->request('GET', 'service/sdk/info', [
+            $response = $client->request('GET', 'sdk/info', [
                 'headers' => [
                     'Accept-Token' => Config::get('app_token'),
                 ]
