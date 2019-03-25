@@ -23,9 +23,8 @@ class SearchChannel
      */
     public static function search($params)
     {
-
         if (!Config::has('products_endpoint')) {
-            throw new RuntimeException('The topics endpoint is required.');
+            throw new RuntimeException('The products endpoint is required.');
         }
 
         if (!Config::has('service_token')) {
@@ -47,7 +46,7 @@ class SearchChannel
 
             if (!empty($params['filter'])) {
                 // Query params will overwrite the filters
-                $queryParams = array_merge($params, $queryParams);
+                $queryParams = array_merge($params['filter'], $queryParams);
             }
 
             if (!empty($params['per_page'])) {
