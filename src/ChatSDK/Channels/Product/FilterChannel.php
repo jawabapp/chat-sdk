@@ -17,11 +17,11 @@ use Exception;
 class FilterChannel
 {
     /**
-     * @param $filter_arr
-     * @return bool
+     * @param array $filters
+     * @return mixed
      * @throws Exception
      */
-    public static function build($filter_arr) {
+    public static function build(array $filters) {
 
         if(!Config::has('app_token')) {
             throw new Exception('The app token is required.');
@@ -37,7 +37,7 @@ class FilterChannel
                     'Accept-Token' => Config::get('app_token'),
                 ],
                 'form_params' => [
-                    'filter' => json_encode($filter_arr)
+                    'filters' => $filters
                 ]
             ]);
 
@@ -50,6 +50,8 @@ class FilterChannel
             if(!empty($content['remote_config_name'])) {
                 return $content['remote_config_name'];
             }
+
+            print_r($content);
 
             throw new Exception('invalid remote config name');
 

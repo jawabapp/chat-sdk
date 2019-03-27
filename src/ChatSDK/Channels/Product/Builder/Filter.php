@@ -10,58 +10,77 @@ namespace ChatSDK\Channels\Product\Builder;
 
 
 use ChatSDK\Channels\Product\FilterChannel;
-use ChatSDK\Config\Repository;
 use Exception;
 
 class Filter
 {
-    private static $filters;
+    private $filters = array();
 
-    public static function get_instance()
-    {
-        if(is_null(self::$filters)) {
-            self::$filters = (new Repository);
-        }
+    private function add($filter) {
 
-        return self::$filters;
+        $this->filters[] = $filter;
+
+        return $this;
     }
 
-    private static function prepValues($values) {
-
-        $out = [];
-
-        foreach ($values as $key => $value) {
-            array_push($out, [
-                'value' => is_numeric($key) ? $value : $key,
-                'label' => $value,
-            ]);
-        }
-
-        return $out;
+    private function validate_name($name) {
+        return $name;
     }
 
-    public static function checkBoxes($name, $label, $values) {
-        self::get_instance()->set($name, [
+    public function checkBoxes($name, Label $label, Options $options) {
+        return $this->add([
             'type' => 'check_boxes',
-            'name' => $name,
+            'name' => $this->validate_name($name),
             'label' => $label,
-            'values' => self::prepValues($values)
+            'options' => $options
         ]);
     }
 
-    public static function switchKey($name, $label) {
-        self::get_instance()->set($name, [
+    public function switchKey($name, Label $label)
+    {
+        return $this->add([
             'type' => 'switch_key',
-            'name' => $name,
+            'name' => $this->validate_name($name),
             'label' => $label
         ]);
     }
 
-    public static function build() {
+    public function toArray($language) {
 
-        $values = array_values(
-            self::get_instance()->all()
-        );
+        $filters = array();
+
+        foreach($this->filters as $filter) {
+
+            $fltr = array();
+
+            foreach($filter as $key => $value) {
+                if($value instanceof Label) {
+                    $fltr[$key] = $value->getLabel($language);
+                } elseif($value instanceof Options) {
+                    $fltr[$key] = $value->getOptions($language);
+                } else {
+                    $fltr[$key] = $value;
+                }
+            }
+
+            array_push($filters, $fltr);
+        }
+
+        return $filters;
+    }
+
+    public function build() {
+
+        $languages = array();
+        foreach($this->filters as $filter) {
+            $languages =  array_merge($languages, $filter['label']->getLanguages());
+        }
+        $languages = array_unique($languages);
+
+        $values = array();
+        foreach ($languages as $language) {
+            $values[$language] = $this->toArray($language);
+        }
 
         error_log(
             json_encode($values)
