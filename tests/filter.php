@@ -71,4 +71,6 @@ $filter->switchKey('free_shipping', Label::make([
     'en' => 'Free Shipping only',
 ]));
 
-$filter->build();
+$config_name = $filter->build();
+
+error_log($config_name);

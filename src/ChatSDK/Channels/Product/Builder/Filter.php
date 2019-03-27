@@ -51,29 +51,30 @@ class Filter
 
         foreach($this->filters as $filter) {
 
-            $fltr = array();
+            $output = array();
 
             foreach($filter as $key => $value) {
                 if($value instanceof Label) {
-                    $fltr[$key] = $value->getLabel($language);
+                    $output[$key] = $value->getLabel($language);
                 } elseif($value instanceof Options) {
-                    $fltr[$key] = $value->getOptions($language);
+                    $output[$key] = $value->getOptions($language);
                 } else {
-                    $fltr[$key] = $value;
+                    $output[$key] = $value;
                 }
             }
 
-            array_push($filters, $fltr);
+            array_push($filters, $output);
         }
 
         return $filters;
     }
 
-    public function build() {
+    public function build($debug = false) {
 
         $languages = array();
         foreach($this->filters as $filter) {
-            $languages =  array_merge($languages, $filter['label']->getLanguages());
+            $label = $filter['label']; /** @var $label Label */
+            $languages =  array_merge($languages, $label->getLanguages());
         }
         $languages = array_unique($languages);
 
@@ -82,9 +83,11 @@ class Filter
             $values[$language] = $this->toArray($language);
         }
 
-        error_log(
-            json_encode($values)
-        );
+        if($debug) {
+            error_log(
+                json_encode($values)
+            );
+        }
 
         try {
             return FilterChannel::build($values);
