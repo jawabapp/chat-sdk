@@ -51,8 +51,6 @@ class FilterChannel
                 return $content['remote_config_name'];
             }
 
-            print_r($content);
-
             throw new Exception('invalid remote config name');
 
         } catch (GuzzleException $e) {
