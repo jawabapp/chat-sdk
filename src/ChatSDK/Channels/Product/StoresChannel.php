@@ -64,6 +64,7 @@ class StoresChannel
                         'title' => $item['title'],
                         'image' => isset($item['image']) ? $item['image'] : '',
                         'description' => isset($item['description']) ? $item['description'] : '',
+                    ];
                 }, $content['items']);
             }
 
