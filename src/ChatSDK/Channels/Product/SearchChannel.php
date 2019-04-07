@@ -17,11 +17,11 @@ class SearchChannel
 {
     /**
      * @param $params
+     * @param array $headers
      * @return array
-     * @throws RuntimeException
      * @throws Exception
      */
-    public static function search($params)
+    public static function search($params, $headers = array())
     {
         if (!Config::has('products_endpoint')) {
             throw new RuntimeException('The products endpoint is required.');
@@ -58,10 +58,10 @@ class SearchChannel
             }
 
             $response = $client->request('GET', Config::get('products_endpoint'), [
-                'headers' => [
+                'headers' => array_merge($headers, [
                     'Accept-Token' => Config::get('service_token'),
                     'Accept-Language' => $params['language'],
-                ],
+                ]),
                 'query' => $queryParams // the products_endpoint query parameters will disappear. Check the documentation http://docs.guzzlephp.org/en/stable/request-options.html#query
             ]);
 
@@ -72,25 +72,28 @@ class SearchChannel
             $content = json_decode($response->getBody()->getContents(), true);
 
             if (!empty($content['items']) && is_array($content['items'])) {
-                return array_map(function ($item) {
+                return [
+                    array_map(function ($item) {
 
-                    if (empty($item['id']) || empty($item['title']) ||
-                        empty($item['price']) || empty($item['link'])) {
-                        throw new RuntimeException('invalid products endpoint response');
-                    }
+                        if (empty($item['id']) || empty($item['title'])) {
+                            throw new RuntimeException('invalid products endpoint response');
+                        }
 
-                    return [
-                        'id' => $item['id'],
-                        'title' => $item['title'],
-                        'price' => $item['price'],
-                        'link' => $item['link'],
-                        'image' => isset($item['image']) ? $item['image'] : '',
-                        'discount_price' => isset($item['discount_price']) ? $item['discount_price'] : '',
-                        'discount_rate' => isset($item['discount_rate']) ? $item['discount_rate'] : '',
-                        'store_name' => isset($item['store_name']) ? $item['store_name'] : '',
-                        'store_image' => isset($item['store_image']) ? $item['store_image'] : '',
-                    ];
-                }, $content['items']);
+                        return [
+                            'id' => $item['id'],
+                            'title' => $item['title'],
+                            'price' => isset($item['price']) ? $item['price'] : '',
+                            'link' => isset($item['link']) ? $item['link'] : '',
+                            'image' => isset($item['image']) ? $item['image'] : '',
+                            'discount_price' => isset($item['discount_price']) ? $item['discount_price'] : '',
+                            'discount_rate' => isset($item['discount_rate']) ? $item['discount_rate'] : '',
+                            'store_name' => isset($item['store_name']) ? $item['store_name'] : '',
+                            'store_image' => isset($item['store_image']) ? $item['store_image'] : '',
+                        ];
+                    }, $content['items']), [
+                        'Tracking-Id' => $response->getHeaderLine('Tracking-Id')
+                    ]
+                ];
             }
 
             // we will return empty array if the search result dont find any product instead of throwing an exception
