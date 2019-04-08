@@ -15,6 +15,9 @@ use Exception;
 
 class SearchChannel
 {
+
+    public static $headerPrefix = 'Custom-';
+
     /**
      * @param $params
      * @param array $headers
@@ -57,6 +60,10 @@ class SearchChannel
                 $queryParams['page'] = $params['page'];
             }
 
+            $headers = array_filter($headers, function ($headerValue, $headerKey) {
+                return strpos($headerKey, self::$headerPrefix) === 0;
+            }, ARRAY_FILTER_USE_BOTH);
+
             $response = $client->request('GET', Config::get('products_endpoint'), [
                 'headers' => array_merge($headers, [
                     'Accept-Token' => Config::get('service_token'),
@@ -70,6 +77,19 @@ class SearchChannel
             }
 
             $content = json_decode($response->getBody()->getContents(), true);
+
+
+            $headerKeys = array_filter(array_keys($response->getHeaders()), function ($header) {
+                return strpos($header, self::$headerPrefix) === 0;
+            });
+
+            $responseHeaders = [];
+            if($headerKeys) {
+                foreach ($headerKeys as $headerKey) {
+                    $header = ucwords($headerKey, '-');
+                    $responseHeaders[$header] = $response->getHeaderLine($header);
+                }
+            }
 
             if (!empty($content['items']) && is_array($content['items'])) {
                 return [
@@ -90,9 +110,8 @@ class SearchChannel
                             'store_name' => isset($item['store_name']) ? $item['store_name'] : '',
                             'store_image' => isset($item['store_image']) ? $item['store_image'] : '',
                         ];
-                    }, $content['items']), [
-                        'Tracking-Id' => $response->getHeaderLine('Tracking-Id')
-                    ]
+                    }, $content['items']),
+                    $responseHeaders
                 ];
             }
 
