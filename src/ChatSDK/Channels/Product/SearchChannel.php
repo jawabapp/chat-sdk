@@ -107,6 +107,7 @@ class SearchChannel
                             'image' => isset($item['image']) ? $item['image'] : '',
                             'discount_price' => isset($item['discount_price']) ? $item['discount_price'] : '',
                             'discount_rate' => isset($item['discount_rate']) ? $item['discount_rate'] : '',
+                            'is_free_shipping' => isset($item['is_free_shipping']) ? $item['is_free_shipping'] : false,
                             'store_name' => isset($item['store_name']) ? $item['store_name'] : '',
                             'store_image' => isset($item['store_image']) ? $item['store_image'] : '',
                         ];
