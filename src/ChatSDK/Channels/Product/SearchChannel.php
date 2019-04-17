@@ -38,6 +38,10 @@ class SearchChannel
             throw new RuntimeException('The language is required.');
         }
 
+        if (empty($params['country_code'])) {
+            throw new RuntimeException('The country code is required.');
+        }
+
         try {
             $client = new Client();
 
@@ -68,6 +72,7 @@ class SearchChannel
                 'headers' => array_merge($headers, [
                     'Accept-Token' => Config::get('service_token'),
                     'Accept-Language' => $params['language'],
+                    'Accept-Country-Code' => $params['country_code'],
                 ]),
                 'query' => $queryParams // the products_endpoint query parameters will disappear. Check the documentation http://docs.guzzlephp.org/en/stable/request-options.html#query
             ]);
