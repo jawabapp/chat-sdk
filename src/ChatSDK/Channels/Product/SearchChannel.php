@@ -78,7 +78,6 @@ class SearchChannel
 
             $content = json_decode($response->getBody()->getContents(), true);
 
-
             $headerKeys = array_filter(array_keys($response->getHeaders()), function ($header) {
                 return strpos($header, self::$headerPrefix) === 0;
             });
@@ -92,28 +91,39 @@ class SearchChannel
             }
 
             if (!empty($content['items']) && is_array($content['items'])) {
+
+                $items = array_map(function ($item) {
+
+                    if (empty($item['id']) || empty($item['title'])) {
+                        throw new RuntimeException('invalid products endpoint response');
+                    }
+
+                    return [
+                        'id' => $item['id'],
+                        'title' => $item['title'],
+                        'price' => isset($item['price']) ? $item['price'] : '',
+                        'link' => isset($item['link']) ? $item['link'] : '',
+                        'share_link' => isset($item['share_link']) ? $item['share_link'] : '',
+                        'image' => isset($item['image']) ? $item['image'] : '',
+                        'discount_price' => isset($item['discount_price']) ? $item['discount_price'] : '',
+                        'discount_rate' => isset($item['discount_rate']) ? $item['discount_rate'] : '',
+                        'is_free_shipping' => isset($item['is_free_shipping']) ? $item['is_free_shipping'] : false,
+                        'condition' => isset($item['condition']) ? $item['condition'] : '',
+                        'store_name' => isset($item['store_name']) ? $item['store_name'] : '',
+                        'store_image' => isset($item['store_image']) ? $item['store_image'] : '',
+                    ];
+                }, $content['items']);
+
+                $pagination = [
+                    "total" => isset($content['pagination']['total']) ? $content['pagination']['total'] : 0,
+                    "per_page" => isset($content['pagination']['per_page']) ? $content['pagination']['per_page'] : 0,
+                    "current_page" => isset($content['pagination']['current_page']) ? $content['pagination']['current_page'] : 0,
+                    "last_page" => isset($content['pagination']['last_page']) ? $content['pagination']['last_page'] : 0,
+                ];
+
                 return [
-                    array_map(function ($item) {
-
-                        if (empty($item['id']) || empty($item['title'])) {
-                            throw new RuntimeException('invalid products endpoint response');
-                        }
-
-                        return [
-                            'id' => $item['id'],
-                            'title' => $item['title'],
-                            'price' => isset($item['price']) ? $item['price'] : '',
-                            'link' => isset($item['link']) ? $item['link'] : '',
-                            'share_link' => isset($item['share_link']) ? $item['share_link'] : '',
-                            'image' => isset($item['image']) ? $item['image'] : '',
-                            'discount_price' => isset($item['discount_price']) ? $item['discount_price'] : '',
-                            'discount_rate' => isset($item['discount_rate']) ? $item['discount_rate'] : '',
-                            'is_free_shipping' => isset($item['is_free_shipping']) ? $item['is_free_shipping'] : false,
-                            'condition' => isset($item['condition']) ? $item['condition'] : '',
-                            'store_name' => isset($item['store_name']) ? $item['store_name'] : '',
-                            'store_image' => isset($item['store_image']) ? $item['store_image'] : '',
-                        ];
-                    }, $content['items']),
+                    $items,
+                    $pagination,
                     $responseHeaders
                 ];
             }
