@@ -22,7 +22,7 @@ class StoresChannel
      * @throws RuntimeException
      * @throws Exception
      */
-    public static function fetch($params)
+    public static function fetch($user_info)
     {
         if (!Config::has('stores_endpoint')) {
             throw new RuntimeException('The stores endpoint is required.');
@@ -32,8 +32,24 @@ class StoresChannel
             throw new RuntimeException('The service token is required.');
         }
 
-        if (empty($params['language'])) {
-            throw new RuntimeException('The language is required.');
+        if (empty($user_info['user_name'])) {
+            throw new RuntimeException('The user name is required.');
+        }
+
+        if (empty($user_info['user_phone'])) {
+            throw new RuntimeException('The user phone is required.');
+        }
+
+        if (empty($user_info['user_country'])) {
+            throw new RuntimeException('The user country is required.');
+        }
+
+        if (empty($user_info['user_device_os'])) {
+            throw new RuntimeException('The user device os is required.');
+        }
+
+        if (empty($user_info['user_language'])) {
+            throw new RuntimeException('The user language is required.');
         }
 
         try {
@@ -42,7 +58,8 @@ class StoresChannel
             $response = $client->request('GET', Config::get('stores_endpoint'), [
                 'headers' => [
                     'Accept-Token' => Config::get('service_token'),
-                    'Accept-Language' => $params['language'],
+                    'Accept-Language' => $user_info['user_language'],
+                    'Accept-User' => base64_encode(serialize($user_info)),
                 ]
             ]);
 
