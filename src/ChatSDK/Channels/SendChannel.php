@@ -28,8 +28,8 @@ class SendChannel
             throw new Exception('invalid client id');
         }
 
-        if(!in_array($content_type, ['text', 'image'])){
-            throw new Exception('The content type must be (text,image)');
+        if(!in_array($content_type, ['text', 'image', 'subscription'])){
+            throw new Exception('The content type must be (text,image,subscription)');
         }
 
         if (strpos($topic, Client::get('topic_prefix') . '/') !== 0) {
