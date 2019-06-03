@@ -26,7 +26,7 @@ class HttpClient extends Client
 
         $host = Config::get('host');
 
-        $config['base_uri'] = "{$http}://{$host}/api/";
+        $config['base_uri'] = "{$http}://{$host}/";
 
         parent::__construct($config);
     }
