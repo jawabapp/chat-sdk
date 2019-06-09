@@ -49,6 +49,10 @@ class ReceiveChannel
 
                     $payload = json_decode($message, true);
 
+                    if($logs) {
+                        echo "Payload: " . json_encode($payload) . "\n";
+                    }
+
                     if(empty($payload) || empty($payload['type'])) {
 
                         if($logs) {
@@ -117,6 +121,8 @@ class ReceiveChannel
                                         'phone' => Receiver::get('phone'),
                                     )
                                 );
+
+                                self::send_acknowledgement($payload);
                             }
                             break;
 
@@ -153,5 +159,30 @@ class ReceiveChannel
         while($mqtt->proc()) { }
 
         $mqtt->close();
+    }
+
+    private static function send_acknowledgement($payload) {
+
+//        $mqtt = new MyPhpMQTT(Client::get('host'), Client::get('port'), Client::get('client_id'));
+//
+//        if(!$mqtt->connect(true, NULL, Client::get('mqtt_username'), Client::get('mqtt_password'))) {
+//            throw new Exception('Connection failed!');
+//        }
+//
+//        $mqtt->publish("usr/{$receiver_id}", json_encode([
+//            "published_form_sdk" => true,
+//            "sender_id" => Sender::get('sender_id'),
+//            "account_sender_id" => Sender::get('account_sender_id'),
+//            "account_sender_nickname" => Sender::get('account_sender_nickname'),
+//            "account_sender_avatar" => Sender::get('account_sender_avatar'),
+//            "chat_id" => $topic,
+//            "message_id" => $message_id,
+//            "content_type" => $content_type,
+//            "created_at" => time(),
+//            "type" => "ack"
+//        ]), 0);
+//
+//        $mqtt->close();
+
     }
 }
