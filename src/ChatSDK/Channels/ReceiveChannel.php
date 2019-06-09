@@ -99,6 +99,7 @@ class ReceiveChannel
                                     array(
                                         //topic info
                                         'topic' => $topic,
+                                        'sender_id' => $payload['sender_id'],
                                         'message_id' => $payload['message_id'],
 
                                         //content info
