@@ -99,7 +99,6 @@ class ReceiveChannel
                                     array(
                                         //topic info
                                         'topic' => $topic,
-                                        'sender_id' => $payload['sender_id'],
                                         'message_id' => $payload['message_id'],
 
                                         //content info
@@ -113,6 +112,7 @@ class ReceiveChannel
                                     ),
                                     array(
                                         //sender info
+                                        'id' => $payload['sender_id'],
                                         'nickname' => Receiver::get('nickname'),
                                         'phone' => Receiver::get('phone'),
                                     )
