@@ -123,7 +123,9 @@ class ReceiveChannel
                                     )
                                 );
 
+                                Client::clearCache();
                                 Sender::clearCache();
+                                Receiver::clearCache();
                             }
                             break;
 
@@ -142,6 +144,10 @@ class ReceiveChannel
                                         'phone' => Receiver::get('phone'),
                                     )
                                 );
+
+                                Client::clearCache();
+                                Sender::clearCache();
+                                Receiver::clearCache();
                             }
                             break;
                     }

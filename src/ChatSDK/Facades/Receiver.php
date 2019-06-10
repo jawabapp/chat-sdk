@@ -14,6 +14,9 @@ use Exception;
 
 class Receiver extends Facade
 {
+
+    private static $cache = array();
+
     protected static function getFacadeAccessor()
     {
         return 'receiver';
@@ -27,27 +30,34 @@ class Receiver extends Facade
 
         try {
 
-            $client = new HttpClient();
+            if(!empty(self::$cache[$topic][$account_sender_id])) {
+                $contents = self::$cache[$topic][$account_sender_id];
+            } else {
 
-            $response = $client->request('POST', "sdk/receiver", [
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Accept-Token' => Config::get('app_token'),
-                ],
-                'form_params' => [
-                    'topic' => $topic,
-                    'account_sender_id' => $account_sender_id,
-                ]
-            ]);
+                $client = new HttpClient();
 
-            if($response->getStatusCode() != 200) {
-                throw new Exception('The remote endpoint could not be called, or the response it returned was invalid.');
-            }
+                $response = $client->request('POST', "sdk/receiver", [
+                    'headers' => [
+                        'Accept' => 'application/json',
+                        'Accept-Token' => Config::get('app_token'),
+                    ],
+                    'form_params' => [
+                        'topic' => $topic,
+                        'account_sender_id' => $account_sender_id,
+                    ]
+                ]);
 
-            $contents = json_decode($response->getBody()->getContents(), true);
+                if ($response->getStatusCode() != 200) {
+                    throw new Exception('The remote endpoint could not be called, or the response it returned was invalid.');
+                }
 
-            if(!is_array($contents)) {
-                $contents = array();
+                $contents = json_decode($response->getBody()->getContents(), true);
+
+                if (!is_array($contents)) {
+                    $contents = array();
+                }
+
+                self::$cache[$topic][$account_sender_id] = $contents;
             }
 
             static::swap(new Repository($contents));
@@ -56,5 +66,9 @@ class Receiver extends Facade
             throw $e;
         }
 
+    }
+
+    public static function clearCache() {
+        self::$cache = array();
     }
 }

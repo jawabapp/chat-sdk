@@ -14,6 +14,9 @@ use Exception;
 
 class Client extends Facade
 {
+
+    private static $cache = array();
+
     protected static function getFacadeAccessor()
     {
         return 'client';
@@ -27,31 +30,37 @@ class Client extends Facade
 
         try {
 
-            $client = new HttpClient();
+            if(!empty(self::$cache[Config::get('app_token')])) {
+                $contents = self::$cache[Config::get('app_token')];
+            } else {
+                $client = new HttpClient();
 
-            $response = $client->request('GET', 'sdk/info', [
-                'headers' => [
-                    'Accept-Token' => Config::get('app_token'),
-                ]
-            ]);
+                $response = $client->request('GET', 'sdk/info', [
+                    'headers' => [
+                        'Accept-Token' => Config::get('app_token'),
+                    ]
+                ]);
 
-            if($response->getStatusCode() != 200) {
-                throw new Exception('The remote endpoint could not be called, or the response it returned was invalid.');
-            }
+                if($response->getStatusCode() != 200) {
+                    throw new Exception('The remote endpoint could not be called, or the response it returned was invalid.');
+                }
 
-            $contents = json_decode($response->getBody()->getContents(), true);
+                $contents = json_decode($response->getBody()->getContents(), true);
 
-            if(!is_array($contents)) {
-                $contents = array();
-            }
+                if(!is_array($contents)) {
+                    $contents = array();
+                }
 
-            $contents['host'] = Config::get('host');
-            $contents['port'] = 1883;
+                $contents['host'] = Config::get('host');
+                $contents['port'] = 1883;
 
-            if(isset($contents['id'])) {
-                $contents['client_id'] = uniqid("service_{$contents['id']}_");
-                $contents['receive_client_id'] = "service_{$contents['id']}_receive";
-                $contents['topic_prefix'] = "grp/srv-{$contents['id']}";
+                if(isset($contents['id'])) {
+                    $contents['client_id'] = uniqid("service_{$contents['id']}_");
+                    $contents['receive_client_id'] = "service_{$contents['id']}_receive";
+                    $contents['topic_prefix'] = "grp/srv-{$contents['id']}";
+                }
+
+                self::$cache[Config::get('app_token')] = $contents;
             }
 
             static::swap(new Repository($contents));
@@ -60,5 +69,9 @@ class Client extends Facade
             throw $e;
         }
 
+    }
+
+    public static function clearCache() {
+        self::$cache = array();
     }
 }
