@@ -10,6 +10,7 @@ namespace ChatSDK\Channels;
 
 use ChatSDK\Facades\Client;
 use ChatSDK\Facades\Receiver;
+use ChatSDK\Facades\Sender;
 use ChatSDK\Support\MyPhpMQTT;
 use Exception;
 
@@ -121,6 +122,8 @@ class ReceiveChannel
                                         'phone' => Receiver::get('phone'),
                                     )
                                 );
+
+                                Sender::clearCache();
                             }
                             break;
 
