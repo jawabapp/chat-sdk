@@ -14,7 +14,7 @@ use Exception;
 
 class UnsubscribeChannel
 {
-    public static function create($params) {
+    public static function unsubscribe($params) {
 
         if(!Config::has('unsubscribe_endpoint')) {
             throw new Exception('The unsubscribe endpoint is required.');
