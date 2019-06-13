@@ -6,7 +6,7 @@
  * Time: 12:14 AM
  */
 
-namespace ChatSDK\Channels;
+namespace ChatSDK\Channels\Mqtt;
 
 use ChatSDK\Facades\Client;
 use ChatSDK\Facades\Receiver;

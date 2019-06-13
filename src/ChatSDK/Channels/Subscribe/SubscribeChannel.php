@@ -6,7 +6,7 @@
  * Time: 10:57 AM
  */
 
-namespace ChatSDK\Channels;
+namespace ChatSDK\Channels\Subscribe;
 
 use ChatSDK\Facades\Config;
 use GuzzleHttp\Client;
@@ -16,8 +16,8 @@ class SubscribeChannel
 {
     public static function create($params) {
 
-        if(!Config::has('user_endpoint')) {
-            throw new Exception('The user endpoint is required.');
+        if(!Config::has('subscribe_endpoint')) {
+            throw new Exception('The subscribe endpoint is required.');
         }
 
         if(!Config::has('service_token')) {
@@ -59,8 +59,8 @@ class SubscribeChannel
 
     public static function check($params) {
 
-        if(!Config::has('user_endpoint')) {
-            throw new Exception('The user endpoint is required.');
+        if(!Config::has('subscribe_check_endpoint')) {
+            throw new Exception('The subscribe check endpoint is required.');
         }
 
         if(!Config::has('service_token')) {
