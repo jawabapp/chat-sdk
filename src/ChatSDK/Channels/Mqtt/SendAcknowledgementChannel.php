@@ -20,7 +20,7 @@ class SendAcknowledgementChannel
         Client::make();
     }
 
-    public static function send($phone, $topic, $receiver_id, $message_id, $content_type = "received") {
+    public static function send($phone, $topic, $receiver_id, $message_id, $content_type = "delivered") {
 
         self::init();
 
@@ -28,8 +28,8 @@ class SendAcknowledgementChannel
             throw new Exception('invalid client id');
         }
 
-        if(!in_array($content_type, ['received', 'read'])){
-            throw new Exception('The content type must be (received,read)');
+        if(!in_array($content_type, ['delivered', 'read'])){
+            throw new Exception('The content type must be (delivered,read)');
         }
 
         if(!$receiver_id) {
