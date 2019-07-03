@@ -20,7 +20,7 @@ class SendAcknowledgementChannel
         Client::make();
     }
 
-    public static function send($phone, $topic, $receiver_id, $message_id, $content_type = "delivered") {
+    public static function send($phone, $topic, $receiver_id, $message_id, $content_type = "delivered", $name = null, $avatar = null) {
 
         self::init();
 
@@ -40,7 +40,7 @@ class SendAcknowledgementChannel
             throw new Exception('Invalid topic prefix');
         }
 
-        Sender::fetch($phone, $topic);
+        Sender::fetch($phone, $topic, $name, $avatar);
 
         if(!Sender::has('sender_id')) {
             throw new Exception('invalid sender id');
