@@ -20,16 +20,12 @@ class SendTypingChannel
         Client::make();
     }
 
-    public static function send($phone, $topic, $receiver_id, $content_type = "typing", $name = null, $avatar = null) {
+    public static function send($phone, $topic, $content_type = "typing", $name = null, $avatar = null) {
 
         self::init();
 
         if(!Client::has('client_id')) {
             throw new Exception('invalid client id');
-        }
-
-        if(!$receiver_id) {
-            throw new Exception('invalid receiver id');
         }
 
         if(!in_array($content_type, ['typing', 'typingFinish'])){
@@ -52,7 +48,7 @@ class SendTypingChannel
             throw new Exception('Connection failed!');
         }
 
-        $mqtt->publish("typ/{$receiver_id}", json_encode([
+        $mqtt->publish("typ/{$topic}", json_encode([
             "published_form_sdk" => true,
             "sender_id" => Sender::get('sender_id'),
             "account_sender_id" => Sender::get('account_sender_id'),
