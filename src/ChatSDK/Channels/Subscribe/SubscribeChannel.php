@@ -79,6 +79,7 @@ class SubscribeChannel
             ],
             'form_params' => [
                 'user_phone' => $params['user_phone'],
+                'product_ids' => $params['product_ids'],
             ]
         ]);
 
