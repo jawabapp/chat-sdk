@@ -16,6 +16,35 @@ use Exception;
 
 class DeepLinksChannel
 {
+
+    /**
+     * @param Topic $topic
+     * @param $phone
+     * @param $isSubscribed
+     * @param $packageId
+     * @param $link
+     * @param array $placeholders
+     * @param array $analyticsInfo
+     * @param array $socialInfo
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public static function generate_premium_subscription_link(Topic $topic, $phone, $isSubscribed, $packageId, $link, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+
+        Client::make();
+
+        $link = self::handle_url($link, self::handle_placeholders($placeholders, array(
+            'service_id' => Client::get('id'),
+            'mode' => 'subscription-premium',
+            'topic' => $topic->getTopic(),
+            'phone' => $phone,
+            'is_subscribed' => $isSubscribed,
+            'package_id' => $packageId,
+        )));
+
+        return self::generate($link, $analyticsInfo, $socialInfo);
+    }
+
     /**
      * @param Topic $topic
      * @param $phone
