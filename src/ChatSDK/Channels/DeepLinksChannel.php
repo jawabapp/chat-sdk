@@ -20,7 +20,6 @@ class DeepLinksChannel
     /**
      * @param Topic $topic
      * @param $phone
-     * @param $isSubscribed
      * @param $packageId
      * @param $link
      * @param array $placeholders
@@ -29,7 +28,7 @@ class DeepLinksChannel
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_premium_subscription_link(Topic $topic, $phone, $isSubscribed, $packageId, $link, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+    public static function generate_premium_subscription_link(Topic $topic, $phone, $packageId, $link, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
 
         Client::make();
 
@@ -38,7 +37,6 @@ class DeepLinksChannel
             'mode' => 'subscription-premium',
             'topic' => $topic->getTopic(),
             'phone' => $phone,
-            'is_subscribed' => $isSubscribed,
             'package_id' => $packageId,
         )));
 
