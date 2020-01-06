@@ -6,13 +6,13 @@
  * Time: 10:57 AM
  */
 
-namespace ChatSDK\Channels;
+namespace ChatSDK\Channels\Group;
 
 use ChatSDK\Facades\Config;
 use ChatSDK\Support\HttpClient;
 use Exception;
 
-class InfoChannel
+class GroupInfoChannel
 {
     public static function update(array $params) {
 
