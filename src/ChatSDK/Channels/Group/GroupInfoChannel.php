@@ -32,7 +32,7 @@ class GroupInfoChannel
 
             $client = new HttpClient();
 
-            $response = $client->request('POST', "sdk/receiver", [
+            $response = $client->request('POST', "sdk/update-group-info", [
                 'headers' => [
                     'Accept' => 'application/json',
                     'Accept-Token' => Config::get('app_token'),
