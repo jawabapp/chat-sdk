@@ -145,13 +145,40 @@ class DeepLinksChannel
     }
 
     /**
-     * @param $link
+     * @param string $hashTag
+     * @param array $placeholders
      * @param array $analyticsInfo
      * @param array $socialInfo
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    private static function generate($link, $analyticsInfo = array(), $socialInfo = array()) {
+    public static function generate_tag_link($hashTag, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+
+        Client::make();
+
+        $uriPrefix = 'https://hashtag.jawab.app';
+
+        $hashTag = (str_replace('#', '', $hashTag));
+
+        $link = "https://trends.jawab.app/hashtag/{$hashTag}";
+
+        $link = self::handle_url("$link", self::handle_placeholders($placeholders, array(
+            'mode' => 'hashtag',
+            'hashtag' => $hashTag
+        )));
+
+        return self::generate($link, $analyticsInfo, $socialInfo, $uriPrefix);
+    }
+
+    /**
+     * @param $link
+     * @param array $analyticsInfo
+     * @param array $socialInfo
+     * @param string $uriPrefix
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    private static function generate($link, $analyticsInfo = array(), $socialInfo = array(), $uriPrefix = null) {
 
         $client = new HttpClient();
 
@@ -162,6 +189,7 @@ class DeepLinksChannel
             ],
             'form_params' => [
                 'link' => $link,
+                'uriPrefix' => $uriPrefix,
                 'socialTitle' => isset($socialInfo['title']) ? $socialInfo['title'] : '',
                 'socialDescription' => isset($socialInfo['description']) ? $socialInfo['description'] : '',
                 'socialImageLink' => isset($socialInfo['image_link']) ? $socialInfo['image_link'] : '',
