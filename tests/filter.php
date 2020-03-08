@@ -14,6 +14,15 @@ use ChatSDK\Channels\Product\Builder\Options;
 
 $filter = new Filter();
 
+$filter->rangeSelector(
+    'from_price', 0,
+    'to_price', 2000,
+    Label::make([
+        'ar' => 'نطاق السعر',
+        'en' => 'Price range',
+    ])
+);
+
 $filter->checkBoxes(
     'condition',
     Label::make([
@@ -71,6 +80,6 @@ $filter->switchKey('free_shipping', Label::make([
     'en' => 'Free Shipping only',
 ]));
 
-$config_name = $filter->build();
+$config_name = $filter->build(true);
 
 error_log($config_name);

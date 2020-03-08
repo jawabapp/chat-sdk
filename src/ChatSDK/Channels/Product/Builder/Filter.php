@@ -45,6 +45,19 @@ class Filter
         ]);
     }
 
+    public function rangeSelector($min_name, $min_value, $max_name, $max_value, Label $label, $currency = "$")
+    {
+        return $this->add([
+            'type' => 'range_selector',
+            'min_name' => $this->validate_name($min_name),
+            'min_value' => floatval($min_value),
+            'max_name' => $this->validate_name($max_name),
+            'max_value' => floatval($max_value),
+            'currency' => $currency,
+            'label' => $label
+        ]);
+    }
+
     public function toArray($language) {
 
         $filters = array();
