@@ -12,23 +12,37 @@ namespace ChatSDK\Channels\Product\Builder;
 class Options
 {
     private $options = array();
+    private $orders = array();
 
-    public function add($value, Label $label) {
-
+    private function add($value, $label, $order) {
         $this->options[$value] = $label;
-
+        $this->orders[$value] = $order;
         return $this;
     }
 
-    public function getOptions($lang) {
+    public function getOptions($lang = null) {
+
+        if(is_null($lang)) {
+            return $this->options;
+        }
 
         $options = array();
 
-        foreach ($this->options as $option => $option_label) { /** @var $option_label Label */
-            array_push($options,[
-                'value' => $option,
-                'label' => $option_label->getLabel($lang),
-            ]);
+        foreach ($this->options as $option => $option_label) {
+
+            if($option_label instanceof Label) {
+                array_push($options,[
+                    'value' => $option,
+                    'label' => $option_label->getLabel($lang),
+                ]);
+            }
+
+            if ($option_label instanceof Option) {
+                array_push($options,[
+                    'value' => $option,
+                    'label' => $option_label->getOption($lang),
+                ]);
+            }
         }
 
         return $options;
@@ -39,12 +53,22 @@ class Options
         $obj = new self();
 
         if($options) {
-            foreach ($options as $value => $label) {
-                $obj->add($value, $label);
+            $order = 0;
+            foreach ($options as $value => $option_label) {
+                $order++;
+                $obj->add($value, $option_label, $order);
             }
         }
 
         return $obj;
 
+    }
+
+    /**
+     * @return array
+     */
+    public function getOrders()
+    {
+        return $this->orders;
     }
 }
