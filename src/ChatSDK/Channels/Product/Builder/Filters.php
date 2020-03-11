@@ -89,7 +89,7 @@ class Filters
 
                             $filterName = strtolower("language_{$lang}");
 
-                            if(empty($values[$filterName]['expression']['language']) || !in_array($lang, $values[$filterName]['expression']['language'])){
+                            if(empty($values[$filterName]['expression']['language']) || (isset($values[$filterName]['expression']['language']) && !in_array($lang, $values[$filterName]['expression']['language']))){
                                 $values[$filterName]['expression']['language'][] = $lang;
                             }
 
