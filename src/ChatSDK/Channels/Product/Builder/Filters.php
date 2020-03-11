@@ -83,6 +83,14 @@ class Filters
 
                         if($lang === 'en') {
                             $values["default"]['data'][] = $data;
+                        } else {
+                            $filterName = strtolower("language_{$lang}");
+
+                            if(empty($values[$filterName]['expression']['language']) || !in_array($lang, $values[$filterName]['expression']['language'])){
+                                $values[$filterName]['expression']['language'][] = $lang;
+                            }
+
+                            $values[$filterName]['data'][] = $data;
                         }
                     } else {
 
