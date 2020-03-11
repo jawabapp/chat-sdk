@@ -88,9 +88,11 @@ class Filters
 
                         $notDefault[$data['label']] = $data['label'];
 
-                        $values["language_{$lang}_country_{$country}"]['expression']['language'][] = $lang;
-                        $values["language_{$lang}_country_{$country}"]['expression']['country'][] = $country;
-                        $values["language_{$lang}_country_{$country}"]['data'][] = $data;
+                        $filterName = strtolower("language_{$lang}_country_{$country}");
+
+                        $values[$filterName]['expression']['language'][] = $lang;
+                        $values[$filterName]['expression']['country'][] = $country;
+                        $values[$filterName]['data'][] = $data;
                     }
                 }
             }
