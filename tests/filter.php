@@ -57,28 +57,151 @@ $filter->checkBoxes(
             'ar' => 'إيباي',
             'en' => 'Ebay',
         ]),
-        'amazon' => Option::make(
-            Label::make([
-                'ar' => 'امازون',
-                'en' => 'Amazon',
-            ]),
-            ['country' => ['ts', 'bs']]
-        ),
-        'souq' => Label::make([
-            'ar' => 'سوق كوم',
-            'en' => 'Souq',
+        'aliexpress' => Label::make([
+            'ar' => 'علي إكسبريس',
+            'en' => 'AliExpress',
         ]),
+        'zulily' => Label::make([
+            'ar' => 'Zulily',
+            'en' => 'Zulily',
+        ]),
+        'namshi' => Label::make([
+            'ar' => 'Namshi',
+            'en' => 'Namshi',
+        ]),
+
+        // AE
+        'letstango' => Option::make(
+            Label::make([
+                'ar' => 'لتس تانغو',
+                'en' => 'Lets Tango',
+            ]),
+            ['country' => ['AE']]
+        ),
+        'nike' => Option::make(
+            Label::make([
+                'ar' => 'Nike',
+                'en' => 'Nike',
+            ]),
+            ['country' => ['AE']]
+        ),
+        'lenovo' => Option::make(
+            Label::make([
+                'ar' => 'Lenovo',
+                'en' => 'Lenovo',
+            ]),
+            ['country' => ['AE']]
+        ),
+        'faces' => Option::make(
+            Label::make([
+                'ar' => 'Faces',
+                'en' => 'Faces',
+            ]),
+            ['country' => ['AE']]
+        ),
+        'brandsforless' => Option::make(
+            Label::make([
+                'ar' => 'Brands for less',
+                'en' => 'Brands for less',
+            ]),
+            ['country' => ['AE']]
+        ),
+        'gap' => Option::make(
+            Label::make([
+                'ar' => 'GAP',
+                'en' => 'GAP',
+            ]),
+            ['country' => ['AE']]
+        ),
+        'lacoste' => Option::make(
+            Label::make([
+                'ar' => 'Lacoste',
+                'en' => 'Lacoste',
+            ]),
+            ['country' => ['AE']]
+        ),
+
+        // EG
+        'souq' => Option::make(
+            Label::make([
+                'ar' => 'سوق كوم',
+                'en' => 'Souq',
+            ]),
+            ['country' => ['EG']]
+        ),
         'jumia' => Option::make(
             Label::make([
                 'ar' => 'جوميا',
                 'en' => 'Jumia',
             ]),
-            ['country' => ['ts']]
+            ['country' => ['EG']]
         ),
-        'aliexpress' => Label::make([
-            'ar' => 'علي إكسبريس',
-            'en' => 'Aliexpress',
-        ]),
+
+        // US
+        'walmart' => Option::make(
+            Label::make([
+                'ar' => 'Walmart',
+                'en' => 'Walmart',
+            ]),
+            ['country' => ['US']]
+        ),
+        'target' => Option::make(
+            Label::make([
+                'ar' => 'Target',
+                'en' => 'Target',
+            ]),
+            ['country' => ['US']]
+        ),
+        'bestbuy' => Option::make(
+            Label::make([
+                'ar' => 'Best Buy',
+                'en' => 'Best Buy',
+            ]),
+            ['country' => ['US']]
+        ),
+        'bloomingdales' => Option::make(
+            Label::make([
+                'ar' => 'Bloomingdaels',
+                'en' => 'Bloomingdaels',
+            ]),
+            ['country' => ['US']]
+        ),
+        'hanes' => Option::make(
+            Label::make([
+                'ar' => 'Hanes',
+                'en' => 'Hanes',
+            ]),
+            ['country' => ['US']]
+        ),
+        'samsclub' => Option::make(
+            Label::make([
+                'ar' => 'Sams Club',
+                'en' => 'Sams Club',
+            ]),
+            ['country' => ['US']]
+        ),
+        'macmall' => Option::make(
+            Label::make([
+                'ar' => 'Mac Mall',
+                'en' => 'Mac Mall',
+            ]),
+            ['country' => ['US']]
+        ),
+        'newbalance' => Option::make(
+            Label::make([
+                'ar' => 'New Balance',
+                'en' => 'New Balance',
+            ]),
+            ['country' => ['US']]
+        ),
+        'samsung' => Option::make(
+            Label::make([
+                'ar' => 'Samsung',
+                'en' => 'Samsung',
+            ]),
+            ['country' => ['US']]
+        ),
+
     ])
 );
 

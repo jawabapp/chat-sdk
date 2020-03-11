@@ -125,7 +125,7 @@ class Filters
         }
 
         try {
-            return FilterChannel::build($values);
+            // return FilterChannel::build($values);
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
@@ -155,7 +155,7 @@ class Filters
 
                 ksort($outOptions);
 
-                $item['options'] = $outOptions;
+                $item['options'] = array_values($outOptions);
             }
 
             $out[$this->orders[$item['name']]['order']] = $item;
@@ -163,7 +163,7 @@ class Filters
 
         ksort($out);
 
-        return $out;
+        return array_values($out);
     }
 
     private function add($params) {
