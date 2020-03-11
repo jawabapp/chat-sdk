@@ -127,7 +127,7 @@ class Filters
         }
 
         try {
-            // return FilterChannel::build($values);
+             return FilterChannel::build($values);
         } catch (Exception $e) {
             error_log($e->getMessage());
         }
