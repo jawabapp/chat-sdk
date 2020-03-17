@@ -16,8 +16,8 @@ class DeleteUserChannel
 {
     public static function delete($params) {
 
-        if(!Config::has('delete_endpoint')) {
-            throw new Exception('The delete endpoint is required.');
+        if(!Config::has('delete_user_endpoint')) {
+            throw new Exception('The delete user endpoint is required.');
         }
 
         if(!Config::has('service_token')) {
@@ -30,7 +30,7 @@ class DeleteUserChannel
 
         $client = new Client();
 
-        $response = $client->request('POST', Config::get('delete_endpoint'), [
+        $response = $client->request('POST', Config::get('delete_user_endpoint'), [
             'headers' => [
                 'Accept-Token' => Config::get('service_token'),
             ],
