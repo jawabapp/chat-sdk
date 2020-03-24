@@ -49,6 +49,7 @@ class SubscribeChannel
                 'notification_type' => $params['notification_type'],
                 'sku_type' => $params['sku_type'],
                 'chat_topic' => $params['chat_topic'],
+                'created_by' => $params['created_by'],
             ]
         ]);
 
