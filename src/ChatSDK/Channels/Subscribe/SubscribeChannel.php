@@ -44,12 +44,17 @@ class SubscribeChannel
                 'expired_at' => $params['expired_at'],
                 'product_id' => $params['product_id'],
                 'transaction_id' => $params['transaction_id'],
+                'original_transaction_id' => $params['original_transaction_id'],
                 'price_currency' => $params['price_currency'],
                 'price_amount' => $params['price_amount'],
                 'notification_type' => $params['notification_type'],
                 'sku_type' => $params['sku_type'],
                 'chat_topic' => $params['chat_topic'],
                 'created_by' => $params['created_by'],
+                'is_trial' => $params['is_trial'],
+                'trial_at' => $params['trial_at'],
+                'trial_end_at' => $params['trial_end_at'],
+                'cancel_at' => $params['cancel_at'],
             ]
         ]);
 
