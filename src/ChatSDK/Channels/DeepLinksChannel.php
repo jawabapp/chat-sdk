@@ -18,17 +18,18 @@ class DeepLinksChannel
 {
 
     /**
-     * @param $desktopLink
      * @param $packageId
+     * @param $desktopLink
      * @param $successRedirectUri
      * @param $failedRedirectUri
+     * @param $webUuid
      * @param array $placeholders
      * @param array $analyticsInfo
      * @param array $socialInfo
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_webview_subscription_link($packageId, $desktopLink, $successRedirectUri, $failedRedirectUri,$placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+    public static function generate_webview_subscription_link($packageId, $desktopLink, $successRedirectUri, $failedRedirectUri, $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
 
         Client::make();
 
@@ -38,6 +39,7 @@ class DeepLinksChannel
             'success_redirect_uri' => urlencode($successRedirectUri),
             'failed_redirect_uri' => urlencode($failedRedirectUri),
             'package_id' => $packageId,
+            'web_uuid' => $webUuid,
         )));
 
         return self::generate($link, $analyticsInfo, $socialInfo);
