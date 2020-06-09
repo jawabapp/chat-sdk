@@ -55,6 +55,7 @@ class SubscribeChannel
                 'trial_at' => $params['trial_at'],
                 'trial_end_at' => $params['trial_end_at'],
                 'cancel_at' => $params['cancel_at'],
+                'web_uuid' => $params['web_uuid'],
             ]
         ]);
 
