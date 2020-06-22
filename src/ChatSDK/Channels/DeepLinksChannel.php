@@ -20,6 +20,32 @@ class DeepLinksChannel
     /**
      * @param $packageId
      * @param $desktopLink
+     * @param $redirectUri
+     * @param $webUuid
+     * @param array $placeholders
+     * @param array $analyticsInfo
+     * @param array $socialInfo
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public static function generate_webview_link($packageId, $desktopLink, $redirectUri, $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+
+        Client::make();
+
+        $link = self::handle_url($desktopLink, self::handle_placeholders($placeholders, array(
+            'service_id' => Client::get('id'),
+            'mode' => 'webview',
+            'redirect_uri' => urlencode($redirectUri),
+            'package_id' => $packageId,
+            'web_uuid' => $webUuid,
+        )));
+
+        return self::generate($link, $analyticsInfo, $socialInfo);
+    }
+
+    /**
+     * @param $packageId
+     * @param $desktopLink
      * @param $successRedirectUri
      * @param $failedRedirectUri
      * @param $webUuid
