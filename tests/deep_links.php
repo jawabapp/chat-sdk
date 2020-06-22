@@ -16,9 +16,9 @@ Config::make([
 ]);
 
 $webview_link = DeepLinksChannel::generate_webview_link(
-    $topic,
-    '+962799141272',
-    'https://www.jawabkom.com/front/access/login_by_phone'
+    'https://playwin.app',
+    'https://playwin.app',
+    'UUIDWEBUUID'
 );
 
 echo "\n";
