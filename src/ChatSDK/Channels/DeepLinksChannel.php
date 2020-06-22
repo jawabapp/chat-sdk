@@ -18,7 +18,6 @@ class DeepLinksChannel
 {
 
     /**
-     * @param $packageId
      * @param $desktopLink
      * @param $redirectUri
      * @param $webUuid
@@ -28,7 +27,7 @@ class DeepLinksChannel
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_webview_link($packageId, $desktopLink, $redirectUri, $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+    public static function generate_webview_link($desktopLink, $redirectUri, $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
 
         Client::make();
 
@@ -36,7 +35,6 @@ class DeepLinksChannel
             'service_id' => Client::get('id'),
             'mode' => 'webview',
             'redirect_uri' => urlencode($redirectUri),
-            'package_id' => $packageId,
             'web_uuid' => $webUuid,
         )));
 
