@@ -35,6 +35,7 @@ class SubscribeChannel
                 'Accept-Token' => Config::get('service_token'),
             ],
             'form_params' => [
+                'user_uuid' => $params['user_uuid'],
                 'user_phone' => $params['user_phone'],
                 'user_nickname' => $params['user_nickname'],
                 'user_topics' => $params['user_topics'],
