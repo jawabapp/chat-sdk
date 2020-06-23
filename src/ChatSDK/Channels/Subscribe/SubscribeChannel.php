@@ -28,6 +28,10 @@ class SubscribeChannel
             throw new Exception('The transaction id is required.');
         }
 
+        if(empty($params['user_uuid'])) {
+            throw new Exception('The user uuid is required.');
+        }
+
         $client = new Client();
 
         $response = $client->request('POST', Config::get('subscribe_endpoint'), [

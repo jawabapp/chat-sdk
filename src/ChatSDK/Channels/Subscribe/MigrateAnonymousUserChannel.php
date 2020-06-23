@@ -28,6 +28,10 @@ class MigrateAnonymousUserChannel
             throw new Exception('The anonymous uuid is required.');
         }
 
+        if(empty($params['user_uuid'])) {
+            throw new Exception('The user uuid is required.');
+        }
+
         if(empty($params['user_phone'])) {
             throw new Exception('The user phone is required.');
         }
