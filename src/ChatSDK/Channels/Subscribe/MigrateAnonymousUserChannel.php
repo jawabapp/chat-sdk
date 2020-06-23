@@ -34,7 +34,7 @@ class MigrateAnonymousUserChannel
 
         $client = new Client();
 
-        $response = $client->request('POST', Config::get('delete_user_endpoint'), [
+        $response = $client->request('POST', Config::get('migrate_user_endpoint'), [
             'headers' => [
                 'Accept-Token' => Config::get('service_token'),
             ],
