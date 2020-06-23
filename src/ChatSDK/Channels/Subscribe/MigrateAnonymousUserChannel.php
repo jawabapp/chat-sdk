@@ -24,10 +24,6 @@ class MigrateAnonymousUserChannel
             throw new Exception('The service token is required.');
         }
 
-        if(empty($params['anonymous_uuid'])) {
-            throw new Exception('The anonymous uuid is required.');
-        }
-
         if(empty($params['user_uuid'])) {
             throw new Exception('The user uuid is required.');
         }
@@ -44,7 +40,6 @@ class MigrateAnonymousUserChannel
             ],
             'form_params' => [
                 //anonymous
-                'anonymous_uuid' => $params['anonymous_uuid'],
                 'anonymous_topics' => $params['anonymous_topics'],
                 //real
                 'user_phone' => $params['user_phone'],
