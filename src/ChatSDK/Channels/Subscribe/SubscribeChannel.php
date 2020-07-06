@@ -81,8 +81,8 @@ class SubscribeChannel
             throw new Exception('The service token is required.');
         }
 
-        if(empty($params['user_phone'])) {
-            throw new Exception('The phone is required.');
+        if(empty($params['user_uuid'])) {
+            throw new Exception('The user uuid is required.');
         }
 
         $client = new Client();
@@ -92,6 +92,7 @@ class SubscribeChannel
                 'Accept-Token' => Config::get('service_token'),
             ],
             'form_params' => [
+                'user_uuid' => $params['user_uuid'],
                 'user_phone' => $params['user_phone'],
                 'product_ids' => $params['product_ids'],
             ]
