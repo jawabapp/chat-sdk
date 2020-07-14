@@ -20,7 +20,7 @@ class SendChannel
         Client::make();
     }
 
-    public static function send($phone, $topic, $content_type, $content, $name = null, $avatar = null, $created_at = null) {
+    public static function send($phone, $topic, $content_type, $content, $name = null, $avatar = null, $created_at = null, $message_id = null) {
 
         self::init();
 
@@ -55,7 +55,7 @@ class SendChannel
             "account_sender_nickname" => Sender::get('account_sender_nickname'),
             "account_sender_avatar" => Sender::get('account_sender_avatar'),
             "chat_id" => $topic,
-            "message_id" => uniqid($topic, true),
+            "message_id" => $message_id ? $message_id : uniqid($topic, true),
             "content" => $content,
             "content_type" => $content_type,
             "created_at" => empty($created_at) ? time() : $created_at,
