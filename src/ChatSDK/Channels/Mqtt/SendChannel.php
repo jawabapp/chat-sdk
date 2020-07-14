@@ -55,7 +55,7 @@ class SendChannel
             "account_sender_nickname" => Sender::get('account_sender_nickname'),
             "account_sender_avatar" => Sender::get('account_sender_avatar'),
             "chat_id" => $topic,
-            "message_id" => $message_id ? $message_id : uniqid($topic, true),
+            "message_id" => empty($message_id) ? uniqid($topic, true) : $message_id,
             "content" => $content,
             "content_type" => $content_type,
             "created_at" => empty($created_at) ? time() : $created_at,
