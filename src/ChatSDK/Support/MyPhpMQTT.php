@@ -1,6 +1,8 @@
 <?php
 /**
  * https://github.com/bluerhinos/phpMQTT/blob/master/phpMQTT.php
+ *
+ * coped by Qanah to make it compatible with php 5.5
  */
 
 namespace ChatSDK\Support;
