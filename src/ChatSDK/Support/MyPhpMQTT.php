@@ -12,7 +12,7 @@ class MyPhpMQTT
     protected $msgid = 1;            /* counter for message id */
     public $keepalive = 10;        /* default keepalive timmer */
     public $timesinceping;        /* host unix time, used to detect disconects */
-    public $topics = [];    /* used to store currently subscribed topics */
+    public $topics = array();    /* used to store currently subscribed topics */
     public $debug = false;        /* should output debug messages */
     public $address;            /* broker address */
     public $port;                /* broker port */
@@ -22,7 +22,7 @@ class MyPhpMQTT
     protected $password;            /* stores password */
 
     public $cafile;
-    protected static $known_commands = [
+    protected static $known_commands = array(
         1 => 'CONNECT',
         2 => 'CONNACK',
         3 => 'PUBLISH',
@@ -37,7 +37,7 @@ class MyPhpMQTT
         12 => 'PINGREQ',
         13 => 'PINGRESP',
         14 => 'DISCONNECT'
-    ];
+    );
 
     /**
      * phpMQTT constructor.
@@ -108,12 +108,12 @@ class MyPhpMQTT
 
         if ($this->cafile) {
             $socketContext = stream_context_create(
-                [
-                    'ssl' => [
+                array(
+                    'ssl' => array(
                         'verify_peer_name' => true,
                         'cafile' => $this->cafile
-                    ]
-                ]
+                    )
+                )
             );
             $this->socket = stream_socket_client('tls://' . $this->address . ':' . $this->port, $errno, $errstr, 60, STREAM_CLIENT_CONNECT, $socketContext);
         } else {
@@ -264,12 +264,12 @@ class MyPhpMQTT
     public function subscribeAndWaitForMessage($topic, $qos)
     {
         $this->subscribe(
-            [
-                $topic => [
+            array(
+                $topic => array(
                     'qos' => $qos,
                     'function' => '__direct_return_message__'
-                ]
-            ]
+                )
+            )
         );
 
         do {
