@@ -622,6 +622,21 @@ class MyPhpMQTT
         }
     }
 
+    public function is_connected() {
+
+        if(!$this->socket) {
+            return false;
+        }
+
+        $meta = stream_get_meta_data($this->socket);
+
+        if(is_writable($meta['uri'])) {
+            return true;
+        }
+
+        return false;
+    }
+
     /**
      * @param string $message
      */
