@@ -1,9 +1,6 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: qanah
- * Date: 11/26/18
- * Time: 8:49 AM
+ * https://github.com/bluerhinos/phpMQTT/blob/master/phpMQTT.php
  */
 
 namespace ChatSDK\Support;
