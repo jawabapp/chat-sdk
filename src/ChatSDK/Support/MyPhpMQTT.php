@@ -477,14 +477,7 @@ class MyPhpMQTT
      */
     public function proc($loop = true)
     {
-        if (feof($this->socket)) {
-            $this->_debugMessage('eof receive going to reconnect for good measure');
-            fclose($this->socket);
-            $this->connect_auto(false);
-            if (count($this->topics)) {
-                $this->subscribe($this->topics);
-            }
-        }
+        $this->reconnect();
 
         $byte = $this->read(1, true);
 
@@ -622,19 +615,17 @@ class MyPhpMQTT
         }
     }
 
-    public function is_connected() {
+    public function reconnect() {
 
-        if(!$this->socket) {
-            return false;
+        if (feof($this->socket)) {
+            $this->_debugMessage('eof receive going to reconnect for good measure');
+            fclose($this->socket);
+            $this->connect_auto(false);
+            if (count($this->topics)) {
+                $this->subscribe($this->topics);
+            }
         }
 
-        $meta = stream_get_meta_data($this->socket);
-
-        if(is_writable($meta['uri'])) {
-            return true;
-        }
-
-        return false;
     }
 
     /**
