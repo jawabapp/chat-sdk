@@ -63,7 +63,7 @@ class MyPhpMQTT
      * @param $clientid
      * @param null $cafile
      */
-    public function broker($address, $port, $clientid, $cafile = null): void
+    public function broker($address, $port, $clientid, $cafile = null)
     {
         $this->address = $address;
         $this->port = $port;
@@ -264,7 +264,7 @@ class MyPhpMQTT
      *
      * @return string
      */
-    public function subscribeAndWaitForMessage($topic, $qos): string
+    public function subscribeAndWaitForMessage($topic, $qos)
     {
         $this->subscribe(
             [
@@ -288,7 +288,7 @@ class MyPhpMQTT
      * @param $topics
      * @param int $qos
      */
-    public function subscribe($topics, $qos = 0): void
+    public function subscribe($topics, $qos = 0)
     {
         $i = 0;
         $buffer = '';
