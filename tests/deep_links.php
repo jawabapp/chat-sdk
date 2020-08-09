@@ -18,7 +18,16 @@ Config::make([
 $webview_link = DeepLinksChannel::generate_webview_link(
     'https://playwin.app',
     'https://playwin.app',
-    'UUIDWEBUUID'
+    'UUIDWEBUUID',
+    [],
+    [
+        'utm_source' => 'playwin',
+        'utm_medium' => 'popup',
+        'utm_campaign' => 'val_user_sub_id',
+        'utm_content' => json_encode([
+            'user_sub_id' => 'val_user_sub_id'
+        ]),
+    ]
 );
 
 echo "\n";
