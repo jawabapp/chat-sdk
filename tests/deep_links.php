@@ -12,26 +12,27 @@ use ChatSDK\Facades\Config;
 use ChatSDK\Channels\DeepLinksChannel;
 
 Config::make([
-    'app_token' => 'token.token.token.token'
+    'host' => 'localhost:82',
+    'not_secure' => true,
+    'app_token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjUifQ.eyJpc3MiOiJodHRwOlwvXC9jaGF0Lmphd2FiLmFwcCIsImF1ZCI6IldlYiBWaWV3IFRlc3QiLCJqdGkiOiI1IiwiaWF0IjoxNTk3MDY3NTY0LCJuYmYiOjE1OTcwNjc1NjQsImV4cCI6MTc2NzEzOTIwMCwidWlkIjo1fQ.V8C42LlJHUjVuMRlHfzVFQY-aY8A619tLT5ItJQGJhGySjpxffiCyzDWCKeXkeEVhvEA4VnMXhxyqILLGnpsB-1mxupWIGfpCvMIaKYnodaz-a7F5_QnrG06PooEHudmv3kdDA6TR0qHbFnFo8YViIaota8Y5eofsy1h8f_NAV8X-79X-fUPqOS9sfrEQhkp45J54yMLM1s1fqAY6SSqoRh1PDRxnph2NzRcAX70uYwBNdpfysp_e-yBO7rC-IhqXKxWr6VSGKaUuHwQjjjzrOm0xDtXDAcYQrBFXyXHc6_uhptCnsiW9ub5qe21MQ3GqMAXWjIIy2n7VLnH8UyzHvUA8a2F9ww7xG5oGmf9GW_MGPlHpxkiUIluTC_04XrPbQG-JAEQ2OK1sVysP7jQCjN2fAdUJ6S-7EBAUDOYqvLVj1J8r8nn_8SxEcONDp16y08x-bFl1HKcMEl8yVgrf4we2mn1BftwSuGulNGr68xeaYuJERr9-0cBd2CafeLcQFjBzFdCiFdThPD3tJ7NeyZT6g3oXL-I-N5xEvT1qrNE-veX9mqnd-PZKXi6BJb7wDszUDiCnVOBT6di1adeZtECIuhSHlhXL-E2a6OwuSaTMBvkiypz9DnliSHzmYPy_DMNglRnl7rrB9sxz0q0mnSiHn2bZtGAY0IVy-vMOpw'
 ]);
 
-$webview_link = DeepLinksChannel::generate_webview_link(
-    'https://playwin.app',
-    'https://playwin.app',
-    'UUIDWEBUUID',
-    [],
-    [
-        'utm_source' => 'playwin',
-        'utm_medium' => 'popup',
-        'utm_campaign' => 'val_user_sub_id',
-        'utm_content' => json_encode([
-            'user_sub_id' => 'val_user_sub_id'
-        ]),
-    ]
+$webview_link = DeepLinksChannel::generate_broadcast_link(
+    'https://playwin.app/en/login'
+//    ,[],
+//    [
+//        'utm_source' => 'playwin',
+//        'utm_medium' => 'popup',
+//        'utm_campaign' => 'val_user_sub_id',
+//        'utm_content' => json_encode([
+//            'user_sub_id' => 'val_user_sub_id'
+//        ]),
+//    ]
 );
 
 echo "\n";
 echo $webview_link;
+echo "\n";
 
 //$topic = new \ChatSDK\Support\Topic();
 //

@@ -16,6 +16,33 @@ use Exception;
 
 class DeepLinksChannel
 {
+    /**
+     * @param $desktopLink
+     * @param array $placeholders
+     * @param array $analyticsInfo
+     * @param array $socialInfo
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException|Exception
+     */
+    public static function generate_broadcast_link($desktopLink, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+
+        Client::make();
+
+        $broadcast = Client::get('broadcast');
+
+        if(empty($broadcast)) {
+            throw new Exception('The broadcast info was invalid.');
+        }
+
+        $link = self::handle_url($desktopLink, self::handle_placeholders($placeholders, array(
+            'service_id' => Client::get('id'),
+            'mode' => 'broadcast',
+            'broadcast_user_id' => $broadcast['user_id'],
+            'broadcast_account_id' => $broadcast['id'],
+        )));
+
+        return self::generate($link, $analyticsInfo, $socialInfo);
+    }
 
     /**
      * @param $desktopLink
