@@ -53,7 +53,7 @@ class BroadcastChannel
         return true;
     }
 
-    protected static function send(array $params) {
+    private static function send(array $params) {
 
         if(!Config::has('app_token')) {
             throw new Exception('The app token is required.');
