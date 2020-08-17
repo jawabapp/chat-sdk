@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: qanah
- * Date: 11/14/18
- * Time: 10:57 AM
- */
 
 namespace ChatSDK\Channels;
 
