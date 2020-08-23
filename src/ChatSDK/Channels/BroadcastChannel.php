@@ -163,4 +163,97 @@ class BroadcastChannel
         ));
     }
 
+    public static function sendPremium($userUuid, $deepLink, $title, $subTitle, $buttonTitle,array $details, $language = 'en',array $colors = array(),array $bolds = array()) {
+
+        if(empty($deepLink)) {
+            throw new Exception('The deep link is required.');
+        }
+
+        if(empty($title)) {
+            throw new Exception('The title is required.');
+        }
+
+        if(empty($subTitle)) {
+            throw new Exception('The sub title is required.');
+        }
+
+        if(empty($buttonTitle)) {
+            throw new Exception('The button title is required.');
+        }
+
+        if(empty($details)) {
+            throw new Exception('The details is required.');
+        }
+
+        return self::send(array(
+            'user_uuid' => $userUuid,
+            'content_type' => 'premium',
+            'content' => json_encode(array(
+                //fonts
+                'bold_title' => empty($bolds['title']) ? false : $bolds['title'],
+                'bold_subtitle' => empty($bolds['subtitle']) ? false : $bolds['subtitle'],
+                'bold_details' => empty($bolds['details']) ? false : $bolds['details'],
+                'bold_button' => empty($bolds['button']) ? false : $bolds['button'],
+
+                //colors
+                'color_text_title' => empty($colors['text_title']) ? "#000000" : $colors['text_title'],
+                'color_text_subtitle' => empty($colors['text_subtitle']) ? "#ffffff" : $colors['text_subtitle'],
+                'color_text_details' => empty($colors['text_details']) ? "#ffffff" : $colors['text_details'],
+                'color_text_button' => empty($colors['text_button']) ? "#ffffff" : $colors['text_button'],
+                'color_background' => empty($colors['background']) ? "#4fa9e1" : $colors['background'],
+                'color_button' => empty($colors['button']) ? "#3b6ba8" : $colors['button'],
+
+                'language' => $language,
+                'deep_link' => $deepLink,
+                'title' => $title,
+                'sub_title' => $subTitle,
+                'button_title' => $buttonTitle,
+                'details' => $details,
+            ))
+        ));
+    }
+
+    public static function sendSubscription($userUuid, $deepLink, $description, $buttonTitle, array $expert = array(), $language = 'en',array $colors = array(),array $bolds = array()) {
+
+        if(empty($deepLink)) {
+            throw new Exception('The deep link is required.');
+        }
+
+        if(empty($description)) {
+            throw new Exception('The description is required.');
+        }
+
+        if(empty($buttonTitle)) {
+            throw new Exception('The button title is required.');
+        }
+
+        return self::send(array(
+            'user_uuid' => $userUuid,
+            'content_type' => 'subscription',
+            'content' => json_encode(array(
+                //fonts
+                'bold_expert' => empty($bolds['expert']) ? false : $bolds['expert'],
+                'bold_description' => empty($bolds['description']) ? false : $bolds['description'],
+                'bold_button' => empty($bolds['button']) ? false : $bolds['button'],
+
+                //colors
+                'color_text_expert' => empty($colors['text_expert']) ? "#000000" : $colors['text_expert'],
+                'color_text_description' => empty($colors['text_description']) ? "#000000" : $colors['text_description'],
+                'color_text_button' => empty($colors['text_button']) ? "#ffffff" : $colors['text_button'],
+                'color_background' => empty($colors['background']) ? "#ffffff" : $colors['background'],
+                'color_button' => empty($colors['button']) ? "#24db27" : $colors['button'],
+
+                'language' => $language,
+                'expert_enabled' => empty($expert['name']) ? false : true,
+                'expert_image' => empty($expert['image']) ? "" : $expert['image'],
+                'expert_name' => empty($expert['name']) ? "" : $expert['name'],
+                'expert_title' => empty($expert['title']) ? "" : $expert['title'],
+                'expert_subtitle' => empty($expert['subtitle']) ? "" : $expert['subtitle'],
+                'deep_link' => $deepLink,
+                'button_title' => $buttonTitle,
+                'description' => $description,
+            ))
+        ));
+    }
+
 }
