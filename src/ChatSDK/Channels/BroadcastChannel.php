@@ -148,22 +148,27 @@ class BroadcastChannel
         ));
     }
 
-    public static function sendForceDeepLink($userUuid, $deepLink) {
+    public static function sendForceDeepLink($userUuid, $deepLink, $notificationTitle) {
 
         if(empty($deepLink)) {
             throw new Exception('The deep link is required.');
+        }
+
+        if(empty($notificationTitle)) {
+            throw new Exception('The notification title is required.');
         }
 
         return self::send(array(
             'user_uuid' => $userUuid,
             'content_type' => 'force_subscription',
             'content' => json_encode(array(
-                'deep_link' => $deepLink
+                'deep_link' => $deepLink,
+                'notification_title' => $notificationTitle
             ))
         ));
     }
 
-    public static function sendPremium($userUuid, $deepLink, $title, $subTitle, $buttonTitle,array $details, $language = 'en',array $colors = array(),array $bolds = array()) {
+    public static function sendPremium($userUuid, $deepLink, $notificationTitle, $title, $subTitle, $buttonTitle,array $details, $language = 'en',array $colors = array(),array $bolds = array()) {
 
         if(empty($deepLink)) {
             throw new Exception('The deep link is required.');
@@ -185,10 +190,16 @@ class BroadcastChannel
             throw new Exception('The details is required.');
         }
 
+        if(empty($notificationTitle)) {
+            throw new Exception('The notification title is required.');
+        }
+
         return self::send(array(
             'user_uuid' => $userUuid,
             'content_type' => 'premium',
             'content' => json_encode(array(
+                'notification_title' => $notificationTitle,
+
                 //fonts
                 'bold_title' => empty($bolds['title']) ? false : $bolds['title'],
                 'bold_subtitle' => empty($bolds['subtitle']) ? false : $bolds['subtitle'],
@@ -213,7 +224,7 @@ class BroadcastChannel
         ));
     }
 
-    public static function sendSubscription($userUuid, $deepLink, $description, $buttonTitle, array $expert = array(), $language = 'en',array $colors = array(),array $bolds = array()) {
+    public static function sendSubscription($userUuid, $deepLink, $notificationTitle, $description, $buttonTitle, array $expert = array(), $language = 'en',array $colors = array(),array $bolds = array()) {
 
         if(empty($deepLink)) {
             throw new Exception('The deep link is required.');
@@ -227,10 +238,16 @@ class BroadcastChannel
             throw new Exception('The button title is required.');
         }
 
+        if(empty($notificationTitle)) {
+            throw new Exception('The notification title is required.');
+        }
+
         return self::send(array(
             'user_uuid' => $userUuid,
             'content_type' => 'subscription',
             'content' => json_encode(array(
+                'notification_title' => $notificationTitle,
+
                 //fonts
                 'bold_expert' => empty($bolds['expert']) ? false : $bolds['expert'],
                 'bold_description' => empty($bolds['description']) ? false : $bolds['description'],

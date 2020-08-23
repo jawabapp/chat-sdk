@@ -21,18 +21,21 @@ Config::make([
     'app_token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjYifQ.eyJpc3MiOiJodHRwOlwvXC9jaGF0Lmphd2FiLmFwcCIsImF1ZCI6InBsYXl3aW4iLCJqdGkiOiI2IiwiaWF0IjoxNTkyODIxMjQ0LCJuYmYiOjE1OTI4MjEyNDQsImV4cCI6MTc2NzEzOTIwMCwidWlkIjo2fQ.KUpvpkal_OdeIjFZBnOwnnpH5KC5z4HQ-GuQnujiQTTEuNi7RmG8kvhMVtAVB2LP-DVjDox03Ok1gZIqBeh6VLLee2a_oSvCzu6au2IZWVJcmnaLWusy6b4nF9f1CRb3B7QaHD5Dou97vUwmuc4UuH0vGBp7lcAH2xc7aBcs8_Fz0rZNWRDyUrpbrBMjRtthZUH2euAa5S2AaKC_N9xvvhSMD40MV0hfHSBW361ZXFrObm-oUsIJZERyTYvDz1M-0g53jzp0mnlL4nb_RuFG6J52ze8p9_F-73KNuKx0-FeJV6QmHw8ivRju5IVZuLLTWZ_xSryTBIu_2hK0e6sqIbgPQBxV_MhNoAlHadPvacl3F9Iz26zPb79eJRlC5vj_mTK9OYczqBZ1AFxxT32scE9bFdSpXZZE85SQ_SQF-c7a1leLrHL7C53ULoE2fMHD9L1eeohF0_ynau2iiidOuFGyesnnxRj0coGXaJI2q2KFKd4UCCnxxX6HyGRIRrubphEM0FFGaWf5gpNccrC-FtqTaE-OE_-hgF5mftX1uhl9x2uoFaIVwW1I8y5pE6CM-LD-B6cID3GNGy_AL3FyRIP7-8J-rNlKUcsdxKNK27JihgzTEXTCzsMbdkF9-e9up0BvWOzLrV_ofc0DfhDixxgZhsg4yNJNS8pybKA8258'
 ]);
 
-//\ChatSDK\Channels\BroadcastChannel::sendText('58329AB3-614A-41E6-8B6D-6FC724784DA8', 'test');
-//\ChatSDK\Channels\BroadcastChannel::sendImage('58329AB3-614A-41E6-8B6D-6FC724784DA8', 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search-v2_297x176.jpg');
-//\ChatSDK\Channels\BroadcastChannel::sendLinkableImage('58329AB3-614A-41E6-8B6D-6FC724784DA8', 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search-v2_297x176.jpg');
-//\ChatSDK\Channels\BroadcastChannel::sendForceDeepLink('58329AB3-614A-41E6-8B6D-6FC724784DA8', 'https://post.jawab.app/x9n6TcSqFCikyhcg9');
-//\ChatSDK\Channels\BroadcastChannel::sendPremium('58329AB3-614A-41E6-8B6D-6FC724784DA8', 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'title', 'sub title', 'button', array('aaa', 'bbb', 'ccc'));
-//\ChatSDK\Channels\BroadcastChannel::sendSubscription('58329AB3-614A-41E6-8B6D-6FC724784DA8', 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'description', 'button');
-\ChatSDK\Channels\BroadcastChannel::sendSubscription('58329AB3-614A-41E6-8B6D-6FC724784DA8', 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'description', 'button', array(
-    'image' => 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search-v2_297x176.jpg',
-    'name' => 'Ibraheem Qanah',
-    'title' => 'Developer',
-    'subtitle' => 'rate: 90%',
-));
+$uuid = "DD1FFD55-199E-4B12-BE20-6B6239150A19";
+//$uuid = "58329AB3-614A-41E6-8B6D-6FC724784DA8";
+
+//\ChatSDK\Channels\BroadcastChannel::sendText($uuid, 'test');
+//\ChatSDK\Channels\BroadcastChannel::sendImage($uuid, 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search-v2_297x176.jpg');
+//\ChatSDK\Channels\BroadcastChannel::sendLinkableImage($uuid, 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search-v2_297x176.jpg');
+//\ChatSDK\Channels\BroadcastChannel::sendForceDeepLink($uuid, 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'xyz ForceDeepLink');
+//\ChatSDK\Channels\BroadcastChannel::sendPremium($uuid, 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'xyz Premium', 'title', 'sub title', 'button', array('aaa', 'bbb', 'ccc'));
+\ChatSDK\Channels\BroadcastChannel::sendSubscription($uuid, 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'xyz Subscription', 'description', 'button');
+//\ChatSDK\Channels\BroadcastChannel::sendSubscription($uuid, 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'xyz Subscription 2', 'description', 'button', array(
+//    'image' => 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search-v2_297x176.jpg',
+//    'name' => 'Ibraheem Qanah',
+//    'title' => 'Developer',
+//    'subtitle' => 'rate: 90%',
+//));
 
 //$webview_link = DeepLinksChannel::generate_broadcast_link(
 //    'https://playwin.app/en/login'
