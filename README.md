@@ -7,7 +7,7 @@ JawabChat is a chat application that you can integrate to your services easily t
 you can use composer directly to install this library to your application:
 
 ```
-composer require jawabapp/chat-sdk:dev-master
+composer require jawabapp/chat-sdk
 ```
 
 ## Your Responsibilities
