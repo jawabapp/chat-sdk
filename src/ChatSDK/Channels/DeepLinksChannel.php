@@ -242,6 +242,7 @@ class DeepLinksChannel
         $link = "https://trends.jawab.app/hashtag/{$hashTag}";
 
         $link = self::handle_url("$link", self::handle_placeholders($placeholders, array(
+            'service_id' => Client::get('id'),
             'mode' => 'hashtag',
             'hashtag' => $hashTag
         )));
