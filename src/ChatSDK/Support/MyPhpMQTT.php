@@ -361,6 +361,9 @@ class MyPhpMQTT
      */
     public function publish($topic, $content, $qos = 0, $retain = false)
     {
+
+        $this->reconnect();
+
         $i = 0;
         $buffer = '';
 

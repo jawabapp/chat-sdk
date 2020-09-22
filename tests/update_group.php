@@ -1,13 +1,13 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
+require_once __DIR__ . '/autoload.php';
 
 use ChatSDK\Channels\Group\GroupInfoChannel;
 use ChatSDK\Facades\Config;
 
-Config::make(array(
-    'app_token' => 'token.token.token.token',
-));
+Config::make([
+    'app_token' => config('APP_TOKEN')
+]);
 
 GroupInfoChannel::update([
     'topic' => 'test-topic',

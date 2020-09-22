@@ -1,6 +1,6 @@
 <?php
 
-require_once __DIR__ . '/../vendor/autoload.php'; // Autoload files using Composer autoload
+require_once __DIR__ . '/autoload.php';
 
 use ChatSDK\Channels\Product\Builder\Filters;
 use ChatSDK\Channels\Product\Builder\Label;
