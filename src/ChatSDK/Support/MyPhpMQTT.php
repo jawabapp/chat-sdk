@@ -23,4 +23,21 @@ class MyPhpMQTT extends phpMQTT
         }
 
     }
+
+    public function force_reconnect() {
+
+        fclose($this->socket);
+
+        $this->connect_auto(false);
+
+        if (count($this->topics)) {
+            $this->subscribe($this->topics);
+        }
+
+    }
+
+    public function force_close()
+    {
+        stream_socket_shutdown($this->socket, STREAM_SHUT_WR);
+    }
 }
