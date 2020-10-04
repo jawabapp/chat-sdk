@@ -12,7 +12,8 @@
         "php": ">=5.5.9",
         "guzzlehttp/guzzle": "*",
         "ext-json": "*",
-        "symfony/dotenv": "^5.2@dev"
+        "symfony/dotenv": "^5.2@dev",
+        "bluerhinos/phpmqtt": "@dev"
     },
     "autoload": {
         "psr-0": {
