@@ -29,7 +29,6 @@ class DeepLinksChannel
      * subtitle: this subtitle
      * image: this image
      * button_text: this button text
-     * button_icon: this button icon
      * button_text_color: this button text colors
      * button_color: this button color
      * gradient_start_color: this background color gradient start
