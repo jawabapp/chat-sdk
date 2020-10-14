@@ -23,11 +23,13 @@ echo \ChatSDK\Channels\DeepLinksChannel::generate_reworded_ads_link(
         'logo' => 'https://playwin.app/images/logo/logo_1586108912logo.png',
         'title' => 'لقد إستنفذت محاولاتك',
         'subtitle' => 'إلعب جولة اخرى مجاناً',
-        'image' => 'https://img.pngio.com/3d-red-heart-png-image-png-mart-3d-heart-png-1200_1200.png',
+        'image' => 'https://s3.jawab.app/chat/group-1655.png',
         'button_text' => 'إلعب جولة اخرى',
-        'button_color' => '#ffda00',
-        'gradient_start_color' => '#0095fd',
-        'gradient_end_color' => '#14b077',
+        'button_icon' => 'https://s3.jawab.app/chat/group-1654.png',
+        'button_text_color' => '#404040',
+        'button_color' => '#FFDA04',
+        'gradient_start_color' => '#0095FF',
+        'gradient_end_color' => '#00AD6C',
     ]
 );
 
