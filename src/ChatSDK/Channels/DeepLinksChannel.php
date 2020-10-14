@@ -24,14 +24,14 @@ class DeepLinksChannel
      * @param null $webUuid
      * @param array $placeholders <p>
      * Placeholder array example.
-     * logo: this will will appear in top of the subscription screen
-     * title: this expert image
-     * subtitle: this expert name
-     * image: this expert title
-     * button_text: this expert subtitle
-     * button_color: this expert subtitle
-     * gradient_start_color: this expert subtitle
-     * gradient_end_color: this expert subtitle
+     * logo: this logo
+     * title: this title
+     * subtitle: this subtitle
+     * image: this image
+     * button_text: this button text
+     * button_color: this button color
+     * gradient_start_color: this background color gradient start
+     * gradient_end_color: this background color gradient end
      * </p>
      * @param array $analyticsInfo
      * @param array $socialInfo
