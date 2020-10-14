@@ -16,6 +16,43 @@ use Exception;
 
 class DeepLinksChannel
 {
+
+    /**
+     * @param $desktopLink
+     * @param $successRedirectUri
+     * @param $failedRedirectUri
+     * @param null $webUuid
+     * @param array $placeholders <p>
+     * Placeholder array example.
+     * logo: this will will appear in top of the subscription screen
+     * title: this expert image
+     * subtitle: this expert name
+     * image: this expert title
+     * button_text: this expert subtitle
+     * button_color: this expert subtitle
+     * gradient_start_color: this expert subtitle
+     * gradient_end_color: this expert subtitle
+     * </p>
+     * @param array $analyticsInfo
+     * @param array $socialInfo
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public static function generate_reworded_ads_link($desktopLink, $successRedirectUri, $failedRedirectUri, $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+
+        Client::make();
+
+        $link = self::handle_url($desktopLink, self::handle_placeholders($placeholders, array(
+            'service_id' => Client::get('id'),
+            'mode' => 'reworded-ads',
+            'success_redirect_uri' => urlencode($successRedirectUri),
+            'failed_redirect_uri' => urlencode($failedRedirectUri),
+            'web_uuid' => $webUuid,
+        )));
+
+        return self::generate($link, $analyticsInfo, $socialInfo);
+    }
+
     /**
      * @param $desktopLink
      * @param array $placeholders
@@ -101,7 +138,17 @@ class DeepLinksChannel
      * @param $phone
      * @param $packageId
      * @param $link
-     * @param array $placeholders
+     * @param array $placeholders <p>
+     * Placeholder array example.
+     * language: [ar|en] this will force the chat message to be rtl|ltr
+     * category: this will will appear in top of the subscription screen
+     * expert_image: this expert image
+     * expert_name: this expert name
+     * expert_title: this expert title
+     * expert_subtitle: this expert subtitle
+     * hashtag: this auto follow hashtag
+     * hashtag_link: optional
+     * </p>
      * @param array $analyticsInfo
      * @param array $socialInfo
      * @return mixed
@@ -128,7 +175,17 @@ class DeepLinksChannel
      * @param $isSubscribed
      * @param $packageId
      * @param $link
-     * @param array $placeholders
+     * @param array $placeholders <p>
+     * Placeholder array example.
+     * language: [ar|en] this will force the chat message to be rtl|ltr
+     * category: this will will appear in top of the subscription screen
+     * expert_image: this expert image
+     * expert_name: this expert name
+     * expert_title: this expert title
+     * expert_subtitle: this expert subtitle
+     * hashtag: this auto follow hashtag
+     * hashtag_link: optional
+     * </p>
      * @param array $analyticsInfo
      * @param array $socialInfo
      * @return mixed
@@ -155,7 +212,17 @@ class DeepLinksChannel
      * @param $phone
      * @param $packageId
      * @param $link
-     * @param array $placeholders
+     * @param array $placeholders <p>
+     * Placeholder array example.
+     * language: [ar|en] this will force the chat message to be rtl|ltr
+     * category: this will will appear in top of the subscription screen
+     * expert_image: this expert image
+     * expert_name: this expert name
+     * expert_title: this expert title
+     * expert_subtitle: this expert subtitle
+     * hashtag: this auto follow hashtag
+     * hashtag_link: optional
+     * </p>
      * @param array $analyticsInfo
      * @param array $socialInfo
      * @return mixed
@@ -180,7 +247,17 @@ class DeepLinksChannel
      * @param Topic $topic
      * @param $phone
      * @param $link
-     * @param array $placeholders
+     * @param array $placeholders <p>
+     * Placeholder array example.
+     * language: [ar|en] this will force the chat message to be rtl|ltr
+     * category: this will will appear in top of the subscription screen
+     * expert_image: this expert image
+     * expert_name: this expert name
+     * expert_title: this expert title
+     * expert_subtitle: this expert subtitle
+     * hashtag: this auto follow hashtag
+     * hashtag_link: optional
+     * </p>
      * @param array $analyticsInfo
      * @param array $socialInfo
      * @return mixed
