@@ -20,6 +20,7 @@ echo \ChatSDK\Channels\DeepLinksChannel::generate_reworded_ads_link(
     'https://playwin.app/en/login',
     'test-web-uuid-test',
     [
+        'language' => 'ar',
         'logo' => 'https://playwin.app/images/logo/logo_1586108912logo.png',
         'title' => 'لقد إستنفذت محاولاتك',
         'subtitle' => 'إلعب جولة اخرى مجاناً',

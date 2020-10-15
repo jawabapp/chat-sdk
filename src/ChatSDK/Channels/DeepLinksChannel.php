@@ -24,6 +24,7 @@ class DeepLinksChannel
      * @param null $webUuid
      * @param array $placeholders <p>
      * Placeholder array example.
+     * language: this language [ar|en]
      * logo: this logo
      * title: this title
      * subtitle: this subtitle
