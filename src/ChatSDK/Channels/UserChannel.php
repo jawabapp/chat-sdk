@@ -9,6 +9,7 @@
 namespace ChatSDK\Channels;
 
 use ChatSDK\Facades\Config;
+use ChatSDK\Support\HttpClient;
 use GuzzleHttp\Client;
 use Exception;
 
@@ -65,5 +66,33 @@ class UserChannel
         } catch (Exception $e) {
             throw $e;
         }
+    }
+
+    public static function info($uuid) {
+
+        $client = new HttpClient();
+
+        $response = $client->request('POST', "sdk/user/info", [
+            'headers' => [
+                'Accept' => 'application/json',
+                'Accept-Token' => Config::get('app_token'),
+            ],
+            'form_params' => [
+                'uuid' => $uuid
+            ]
+        ]);
+
+        if($response->getStatusCode() != 200) {
+            throw new Exception('The remote endpoint could not be called, or the response it returned was invalid.');
+        }
+
+        $contents = json_decode($response->getBody()->getContents(), true);
+
+        if(!is_array($contents)) {
+            $contents = array();
+        }
+
+        return $contents;
+
     }
 }
