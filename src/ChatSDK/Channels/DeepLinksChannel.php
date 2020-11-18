@@ -34,17 +34,14 @@ class DeepLinksChannel
      * button_color: this button color
      * gradient_start_color: this background color gradient start
      * gradient_end_color: this background color gradient end
-     * close_to: [app|url] default url
-     * close_title: this title
-     * close_subtitle: this subtitle
-     * close_button_text: this button text
      * </p>
      * @param array $analyticsInfo
      * @param array $socialInfo
+     * @param null $closeRedirectUri
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_reworded_ads_link($desktopLink, $successRedirectUri, $failedRedirectUri, $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+    public static function generate_reworded_ads_link($desktopLink, $successRedirectUri, $failedRedirectUri, $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array(), $closeRedirectUri = null) {
 
         Client::make();
 
@@ -53,6 +50,7 @@ class DeepLinksChannel
             'mode' => 'reworded-ads',
             'success_redirect_uri' => urlencode($successRedirectUri),
             'failed_redirect_uri' => urlencode($failedRedirectUri),
+            'close_redirect_uri' => $closeRedirectUri ? urlencode($closeRedirectUri) : null,
             'web_uuid' => $webUuid,
         )));
 
