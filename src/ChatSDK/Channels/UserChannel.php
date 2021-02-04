@@ -96,10 +96,10 @@ class UserChannel
 
     }
 
-    public static function app_download_acknowledgement($params) {
+    public static function app_acknowledgement($params) {
 
-        if(!Config::has('app_download_acknowledgement_endpoint')) {
-            throw new Exception('The app download acknowledgement endpoint is required.');
+        if(!Config::has('app_acknowledgement_endpoint')) {
+            throw new Exception('The app acknowledgement endpoint is required.');
         }
 
         if(!Config::has('service_token')) {
@@ -108,7 +108,7 @@ class UserChannel
 
         $client = new Client();
 
-        $response = $client->request('POST', Config::get('app_download_acknowledgement_endpoint'), [
+        $response = $client->request('POST', Config::get('app_acknowledgement_endpoint'), [
             'headers' => [
                 'Accept-Token' => Config::get('service_token'),
             ],
