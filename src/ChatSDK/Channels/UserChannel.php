@@ -117,9 +117,10 @@ class UserChannel
                 'user_phone' => $params['user_phone'],
                 'user_nickname' => $params['user_nickname'],
                 'user_topics' => $params['user_topics'],
-                'os' => $params['os'],
-                'device_info' => $params['device_info'],
-                'web_uuid' => $params['web_uuid'],
+                'mobile_os' => $params['mobile_os'],
+                'app_version_name' => $params['app_version_name'],
+                'app_version_code' => $params['app_version_code'],
+                'extra_params' => $params['extra_params'],
             ]
         ]);
 
