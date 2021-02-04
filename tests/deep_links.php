@@ -11,10 +11,14 @@ require_once __DIR__ . '/autoload.php';
 use ChatSDK\Facades\Config;
 use ChatSDK\Channels\DeepLinksChannel;
 
+Config::make([
+    'app_token' => config('APP_TOKEN')
+]);
+
 //Config::make([
 //    'host' => 'localhost:82',
 //    'not_secure' => true,
-//    'app_token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjUifQ.eyJpc3MiOiJodHRwOlwvXC9jaGF0Lmphd2FiLmFwcCIsImF1ZCI6IldlYiBWaWV3IFRlc3QiLCJqdGkiOiI1IiwiaWF0IjoxNTk3MDY3NTY0LCJuYmYiOjE1OTcwNjc1NjQsImV4cCI6MTc2NzEzOTIwMCwidWlkIjo1fQ.V8C42LlJHUjVuMRlHfzVFQY-aY8A619tLT5ItJQGJhGySjpxffiCyzDWCKeXkeEVhvEA4VnMXhxyqILLGnpsB-1mxupWIGfpCvMIaKYnodaz-a7F5_QnrG06PooEHudmv3kdDA6TR0qHbFnFo8YViIaota8Y5eofsy1h8f_NAV8X-79X-fUPqOS9sfrEQhkp45J54yMLM1s1fqAY6SSqoRh1PDRxnph2NzRcAX70uYwBNdpfysp_e-yBO7rC-IhqXKxWr6VSGKaUuHwQjjjzrOm0xDtXDAcYQrBFXyXHc6_uhptCnsiW9ub5qe21MQ3GqMAXWjIIy2n7VLnH8UyzHvUA8a2F9ww7xG5oGmf9GW_MGPlHpxkiUIluTC_04XrPbQG-JAEQ2OK1sVysP7jQCjN2fAdUJ6S-7EBAUDOYqvLVj1J8r8nn_8SxEcONDp16y08x-bFl1HKcMEl8yVgrf4we2mn1BftwSuGulNGr68xeaYuJERr9-0cBd2CafeLcQFjBzFdCiFdThPD3tJ7NeyZT6g3oXL-I-N5xEvT1qrNE-veX9mqnd-PZKXi6BJb7wDszUDiCnVOBT6di1adeZtECIuhSHlhXL-E2a6OwuSaTMBvkiypz9DnliSHzmYPy_DMNglRnl7rrB9sxz0q0mnSiHn2bZtGAY0IVy-vMOpw'
+//    'app_token' => 'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6IjEifQ.eyJpc3MiOiJodHRwOlwvXC9jaGF0Lmphd2FiLmFwcCIsImF1ZCI6Ikphd2Fia29tIiwianRpIjoiMSIsImlhdCI6MTYxMDk2NzQxNiwibmJmIjoxNjEwOTY3NDE2LCJleHAiOjE3MzU2ODk2MDAsInVpZCI6MX0.bHKlriARgyQda0185_zs0qH5YMzYKTpCUD1sblHLfb2w_JfubrT0FU7MbGnHxrXekPbFe7IDUTe39isIeTCKg0CqLzRDdKCcj8l6qjI3J8Gvyiw_Py3qp8HALGCCAi-i-6CM5CjFsNyeDUyea9y8nrfDxi2_sI52erxPN1aQxN3jWaaDxS62iKMrODlvw6EgkKcR7pHa8h2RRBt1_u5dhhI09d_8g820hct8KNPBLhDmdr8mEv-kX4mLSVpiIoU035j7hl8rax4zgUlh_0W9yBVXo4_WqDFnpTJcSTCaCGMAZweD5ucwdvidF8-wfYUryuF96CoO5xWAxL0LskRYtmI0LBFBVTBD3mEQs9p9sYMmwKPhXkLRg_xLSzUoDuLDNHNKVmO2J2BpJ01VyeYKdTiEi0Cg4XRzdCIyF8Uwp46w_v78DZ0z9jgKpcNpX6pw8ENfbC93BA0TPDOQ_Fl9CUFVWtJmwUBIajWuc7z-2g3vyEoNvdUNQPXs_IEThm7KweN26tk4iWuR8tTf7rtDvQiPOa1WFwIy_uk1psuM2r8fQ7sSceMj9sb2zJLdqzf_jRduPxOJuIeWNMlXokBC7ZxR5Q3gn5Rvaz3zP8xFxIxRMMjvdy82ukZME-09-v-FTL8-wp66L11xLpm5zQVFJbZjrl-gaIcQLsZTqggc6Xw'
 //]);
 
 //$webview_link = DeepLinksChannel::generate_broadcast_link(
@@ -35,10 +39,10 @@ use ChatSDK\Channels\DeepLinksChannel;
 //echo "\n";
 
 //$topic = new \ChatSDK\Support\Topic();
-//
-////if qoustion id exist in table
-////$topic->setTopic('grp/srv-1/45255077_5c1a63f832fca');
-//$topic->generateTopic(45255077);
+
+//if qoustion id exist in table
+//$topic->setTopic('grp/srv-1/45255077_5c1a63f832fca');
+//$topic->generateTopic(82349093);
 //
 //$auth_subscription_link = DeepLinksChannel::generate_shortcut_subscription_link(
 //    $topic,
@@ -48,7 +52,7 @@ use ChatSDK\Channels\DeepLinksChannel;
 //    'https://www.jawabkom.com/front/access/login_by_phone',
 //    array(
 //        'category' => 'Medical',
-//        'expert_image' => 'https://myblue.bluecrossma.com/sites/g/files/csphws1086/files/inline-images/Doctor%20Image%20Desktop.png',
+//        'expert_image' => 'https://www.gravatar.com/avatar/0debb6ee89fbc40a267cb6e13c613c52',
 //        'expert_name' => 'Dr. Sulaiman Abd Al-Hadi',
 //        'expert_title' => 'Licensed Doctor',
 //        'expert_subtitle' => 'Answered: 19,783 - Rating: 86.21%',
@@ -58,11 +62,11 @@ use ChatSDK\Channels\DeepLinksChannel;
 //$subscription_link = DeepLinksChannel::generate_subscription_link(
 //    $topic,
 //    '+962799141272',
-//    1,
+//    15,
 //    'https://www.jawabkom.com/front/access/login_by_phone',
 //    array(
 //        'category' => 'Medical',
-//        'expert_image' => 'https://myblue.bluecrossma.com/sites/g/files/csphws1086/files/inline-images/Doctor%20Image%20Desktop.png',
+//        'expert_image' => 'https://www.gravatar.com/avatar/0debb6ee89fbc40a267cb6e13c613c52',
 //        'expert_name' => 'Dr. Sulaiman Abd Al-Hadi',
 //        'expert_title' => 'Licensed Doctor',
 //        'expert_subtitle' => 'Answered: 19,783 - Rating: 86.21%',
@@ -75,10 +79,10 @@ use ChatSDK\Channels\DeepLinksChannel;
 //    'https://www.jawabkom.com/front/access/login_by_phone'
 //);
 //
-//$login_link = DeepLinksChannel::generate_login_link(
-//    '+962799141272',
-//    'https://www.jawabkom.com/front/access/login_by_phone'
-//);
+$login_link = DeepLinksChannel::generate_login_link(
+    '+962799141272',
+    'https://www.jawabkom.com/front/access/login_by_phone'
+);
 
 //echo "\n";
 //
@@ -91,5 +95,5 @@ use ChatSDK\Channels\DeepLinksChannel;
 //echo $chat_link;
 //echo "\n";
 
-//echo $login_link;
-//echo "\n";
+echo $login_link;
+echo "\n";

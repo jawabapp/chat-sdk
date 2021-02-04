@@ -95,4 +95,38 @@ class UserChannel
         return $contents;
 
     }
+
+    public static function app_download_acknowledgement($params) {
+
+        if(!Config::has('app_download_acknowledgement_endpoint')) {
+            throw new Exception('The app download acknowledgement endpoint is required.');
+        }
+
+        if(!Config::has('service_token')) {
+            throw new Exception('The service token is required.');
+        }
+
+        $client = new Client();
+
+        $response = $client->request('POST', Config::get('app_download_acknowledgement_endpoint'), [
+            'headers' => [
+                'Accept-Token' => Config::get('service_token'),
+            ],
+            'form_params' => [
+                'user_uuid' => $params['user_uuid'],
+                'user_phone' => $params['user_phone'],
+                'user_nickname' => $params['user_nickname'],
+                'user_topics' => $params['user_topics'],
+                'os' => $params['os'],
+                'device_info' => $params['device_info'],
+                'web_uuid' => $params['web_uuid'],
+            ]
+        ]);
+
+        if($response->getStatusCode() != 200) {
+            throw new Exception('The remote endpoint could not be called, or the response it returned was invalid.');
+        }
+
+        return true;
+    }
 }
