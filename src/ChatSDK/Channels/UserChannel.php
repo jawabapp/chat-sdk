@@ -99,7 +99,7 @@ class UserChannel
     public static function app_acknowledgement($params) {
 
         if(!Config::has('app_acknowledgement_endpoint')) {
-            throw new Exception('The app acknowledgement endpoint is required.');
+            throw new Exception('The app acknowledgement endpoint is required');
         }
 
         if(!Config::has('service_token')) {
