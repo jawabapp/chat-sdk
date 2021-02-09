@@ -19,6 +19,59 @@ class DeepLinksChannel
 
     /**
      * @param $desktopLink
+     * @param $accountSlug
+     * @param array $placeholders
+     * @param array $analyticsInfo
+     * @param array $socialInfo
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public static function generate_account_link($desktopLink, $accountSlug, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+
+        Client::make();
+
+        $link = self::handle_url($desktopLink, self::handle_placeholders($placeholders, array(
+            'service_id' => Client::get('id'),
+            'mode' => 'account',
+            'slug' => urlencode($accountSlug),
+        )));
+
+        return self::generate($link, $analyticsInfo, $socialInfo);
+    }
+
+    /**
+     * @param $desktopLink
+     * @param $accountSlug
+     * @param $redirectUri
+     * @param null $webUuid
+     * @param array $placeholders <p>
+     * Placeholder array example.
+     * language: this language [ar|en]
+     * title: this title
+     * image: this image
+     * </p>
+     * @param array $analyticsInfo
+     * @param array $socialInfo
+     * @return mixed
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     */
+    public static function generate_one_to_one_chat_link($desktopLink, $accountSlug, $redirectUri, $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+
+        Client::make();
+
+        $link = self::handle_url($desktopLink, self::handle_placeholders($placeholders, array(
+            'service_id' => Client::get('id'),
+            'mode' => 'one-to-one-chat',
+            'slug' => urlencode($accountSlug),
+            'redirect_uri' => urlencode($redirectUri),
+            'web_uuid' => $webUuid,
+        )));
+
+        return self::generate($link, $analyticsInfo, $socialInfo);
+    }
+
+    /**
+     * @param $desktopLink
      * @param $successRedirectUri
      * @param $failedRedirectUri
      * @param null $webUuid

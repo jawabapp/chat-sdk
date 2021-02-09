@@ -16,11 +16,11 @@ Config::make([
 
 $uuid = config('UUID');
 
-//\ChatSDK\Channels\BroadcastChannel::sendText($uuid, 'test');
+\ChatSDK\Channels\BroadcastChannel::sendText($uuid, 'send me in slack ok if received');
 
 //\ChatSDK\Channels\BroadcastChannel::sendImage($uuid, 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search-v2_297x176.jpg');
 
-\ChatSDK\Channels\BroadcastChannel::sendLinkableImage($uuid, 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search-v2_297x176.jpg');
+//\ChatSDK\Channels\BroadcastChannel::sendLinkableImage($uuid, 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'https://helpx.adobe.com/content/dam/help/en/stock/how-to/visual-reverse-image-search-v2_297x176.jpg');
 
 //\ChatSDK\Channels\BroadcastChannel::sendForceDeepLink($uuid, 'https://post.jawab.app/x9n6TcSqFCikyhcg9', 'xyz ForceDeepLink');
 
