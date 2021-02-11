@@ -94,13 +94,16 @@ class DeepLinksChannel
             );
         }
 
-        $link = self::handle_url($desktopLink, self::handle_placeholders($placeholders, array_merge($notification_message, array(
+        $link = self::handle_url($desktopLink, self::handle_placeholders(array_merge(
+            $placeholders,
+            $notification_message
+        ), array(
             'service_id' => Client::get('id'),
             'mode' => 'one-to-one-chat',
             'slug' => urlencode($accountSlug),
             'enable_message' => $enable_message,
             'web_uuid' => $webUuid,
-        ))));
+        )));
 
         return self::generate($link, $analyticsInfo, $socialInfo);
     }
