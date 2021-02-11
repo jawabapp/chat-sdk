@@ -15,16 +15,46 @@ Config::make([
     'app_token' => config('APP_TOKEN')
 ]);
 
+////image
+//'image_enabled' => empty($referrerMessage['image']['url']) ? false : true,
+//'image' => empty($referrerMessage['image']['url']) ? "" : $referrerMessage['image']['url'],
+//'height' => empty($referrerMessage['image']['height']) ? "" : $referrerMessage['image']['height'],
+//'width' => empty($referrerMessage['image']['width']) ? "" : $referrerMessage['image']['width'],
+
 echo "\n" . DeepLinksChannel::generate_one_to_one_chat_link(
         'https://www.jawabtaza.com/ar',
         'Qanah',
-            'https://www.jawabtaza.com/ar/product/عنب-اخضر-مستورد-1-كجم/?v=fbe46383db39',
-        'test-web-uuid',
         [
             'language' => 'ar',
-            'title' => 'عنب اخضر مستورد 🍇🍇🍇',
-            'image' => 'https://www.jawabtaza.com/wp-content/uploads/2020/10/Green-Grapes-min.jpg',
+            'deep_link' => 'https://www.jawabtaza.com/ar/product/عنب-اخضر-مستورد-1-كجم/?v=fbe46383db39',
+            'notification_title' => 'عنب اخضر مستورد 🍇🍇🍇',
+            'button_title' => '🍇 button_title 🍇',
+            'description' => 'عنب اخضر مستورد 🍇🍇🍇 description',
+            'bolds' => [
+                'expert' => false,
+                'description' => false,
+                'button' => false,
+            ],
+            'colors' => [
+                'text_expert' => "#000000",
+                'text_description' => "#000000",
+                'text_button' => "#ffffff",
+                'background' => "#ffffff",
+                'button' => "#24db27",
+            ],
+            'expert' => [
+                'name' => "",
+                'image' => "",
+                'title' => "",
+                'subtitle' => "",
+            ],
+            'image' => [
+                'url' => "https://www.jawabtaza.com/wp-content/uploads/2020/10/Green-Grapes-min.jpg",
+                'height' => "",
+                'width' => "",
+            ],
         ],
+        'test-web-uuid',
         [
             'utm_medium' => 'deep-link test',
         ]

@@ -42,30 +42,65 @@ class DeepLinksChannel
     /**
      * @param $desktopLink
      * @param $accountSlug
-     * @param $redirectUri
+     * @param array $referrerMessage
      * @param null $webUuid
-     * @param array $placeholders <p>
-     * Placeholder array example.
-     * language: this language [ar|en]
-     * title: this title
-     * image: this image
-     * </p>
+     * @param array $placeholders
      * @param array $analyticsInfo
      * @param array $socialInfo
      * @return mixed
      * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public static function generate_one_to_one_chat_link($desktopLink, $accountSlug, $redirectUri, $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
+    public static function generate_one_to_one_chat_link($desktopLink, $accountSlug, $referrerMessage = array(), $webUuid = null, $placeholders = array(), $analyticsInfo = array(), $socialInfo = array()) {
 
         Client::make();
 
-        $link = self::handle_url($desktopLink, self::handle_placeholders($placeholders, array(
+        $enable_message = false;
+        $notification_message = array();
+
+        if($referrerMessage) {
+            $enable_message = true;
+            $notification_message = array(
+                //base
+                'deep_link' => empty($referrerMessage['deep_link']) ? "" : urlencode($referrerMessage['deep_link']),
+                'language' => empty($referrerMessage['language']) ? "en" : $referrerMessage['language'],
+                'notification_title' => empty($referrerMessage['notification_title']) ? "" : $referrerMessage['notification_title'],
+                'button_title' => empty($referrerMessage['button_title']) ? "" : $referrerMessage['button_title'],
+                'description' => empty($referrerMessage['description']) ? "" : $referrerMessage['description'],
+
+                //fonts
+                'bold_expert' => empty($referrerMessage['bolds']['expert']) ? false : $referrerMessage['bolds']['expert'],
+                'bold_description' => empty($referrerMessage['bolds']['description']) ? false : $referrerMessage['bolds']['description'],
+                'bold_button' => empty($referrerMessage['bolds']['button']) ? false : $referrerMessage['bolds']['button'],
+
+                //colors
+                'color_text_expert' => empty($referrerMessage['colors']['text_expert']) ? "#000000" : $referrerMessage['colors']['text_expert'],
+                'color_text_description' => empty($referrerMessage['colors']['text_description']) ? "#000000" : $referrerMessage['colors']['text_description'],
+                'color_text_button' => empty($referrerMessage['colors']['text_button']) ? "#ffffff" : $referrerMessage['colors']['text_button'],
+                'color_background' => empty($referrerMessage['colors']['background']) ? "#ffffff" : $referrerMessage['colors']['background'],
+                'color_button' => empty($referrerMessage['colors']['button']) ? "#24db27" : $referrerMessage['colors']['button'],
+
+                //expert
+                'expert_enabled' => empty($referrerMessage['expert']['name']) ? false : true,
+                'expert_image' => empty($referrerMessage['expert']['image']) ? "" : $referrerMessage['expert']['image'],
+                'expert_name' => empty($referrerMessage['expert']['name']) ? "" : $referrerMessage['expert']['name'],
+                'expert_title' => empty($referrerMessage['expert']['title']) ? "" : $referrerMessage['expert']['title'],
+                'expert_subtitle' => empty($referrerMessage['expert']['subtitle']) ? "" : $referrerMessage['expert']['subtitle'],
+
+                //image
+                'image_enabled' => empty($referrerMessage['image']['url']) ? false : true,
+                'image' => empty($referrerMessage['image']['url']) ? "" : $referrerMessage['image']['url'],
+                'height' => empty($referrerMessage['image']['height']) ? "" : $referrerMessage['image']['height'],
+                'width' => empty($referrerMessage['image']['width']) ? "" : $referrerMessage['image']['width'],
+            );
+        }
+
+        $link = self::handle_url($desktopLink, self::handle_placeholders($placeholders, array_merge($notification_message, array(
             'service_id' => Client::get('id'),
             'mode' => 'one-to-one-chat',
             'slug' => urlencode($accountSlug),
-            'redirect_uri' => urlencode($redirectUri),
+            'enable_message' => $enable_message,
             'web_uuid' => $webUuid,
-        )));
+        ))));
 
         return self::generate($link, $analyticsInfo, $socialInfo);
     }

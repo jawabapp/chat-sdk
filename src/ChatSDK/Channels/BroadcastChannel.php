@@ -224,7 +224,7 @@ class BroadcastChannel
         ));
     }
 
-    public static function sendSubscription($userUuid, $deepLink, $notificationTitle, $description, $buttonTitle, array $expert = array(), $language = 'en',array $colors = array(),array $bolds = array()) {
+    public static function sendSubscription($userUuid, $deepLink, $notificationTitle, $description, $buttonTitle, array $expert = array(), $language = 'en',array $colors = array(),array $bolds = array(), $image = array()) {
 
         if(empty($deepLink)) {
             throw new Exception('The deep link is required.');
@@ -240,6 +240,23 @@ class BroadcastChannel
 
         if(empty($notificationTitle)) {
             throw new Exception('The notification title is required.');
+        }
+
+        if(!empty($image['image']) && function_exists('getimagesize') && (empty($image['height']) || empty($image['width']))) {
+            list($width, $height) = getimagesize($image['image']);
+
+            $image['width'] = $width;
+            $image['height'] = $height;
+        }
+
+        if(!empty($image['image'])) {
+            if(empty($image['width'])) {
+                throw new Exception('The image width is required.');
+            }
+
+            if(empty($image['height'])) {
+                throw new Exception('The image height is required.');
+            }
         }
 
         return self::send(array(
@@ -260,6 +277,7 @@ class BroadcastChannel
                 'color_background' => empty($colors['background']) ? "#ffffff" : $colors['background'],
                 'color_button' => empty($colors['button']) ? "#24db27" : $colors['button'],
 
+                //expert
                 'language' => $language,
                 'expert_enabled' => empty($expert['name']) ? false : true,
                 'expert_image' => empty($expert['image']) ? "" : $expert['image'],
@@ -269,6 +287,12 @@ class BroadcastChannel
                 'deep_link' => $deepLink,
                 'button_title' => $buttonTitle,
                 'description' => $description,
+
+                //image
+                'image_enabled' => empty($image['image']) ? false : true,
+                'image' => empty($image['image']) ? "" : $image['image'],
+                'height' => empty($image['height']) ? "" : $image['height'],
+                'width' => empty($image['width']) ? "" : $image['width'],
             ))
         ));
     }
