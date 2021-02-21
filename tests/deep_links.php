@@ -29,7 +29,7 @@ echo "\n" . DeepLinksChannel::generate_one_to_one_chat_link(
             'deep_link' => 'https://www.jawabtaza.com/ar/product/عنب-اخضر-مستورد-1-كجم/?v=fbe46383db39',
             'notification_title' => 'عنب اخضر مستورد 🍇🍇🍇',
             'button_title' => '🍇 button_title 🍇',
-            'description' => 'عنب اخضر مستورد 🍇🍇🍇 description',
+            'description' => ' في أي محرك بحث ستظهر العديد من المواقع الحديثة العهد في نتائج البحث. على مدى السنين ظهرت نسخ جديدة ومختلفة من نص لوريم إيبسوم، أحياناً عن طريق الصدفة، وأحياناً عن عمد كإدخال بعض العبارات الفكاهية إليها.',
             'bolds' => [
                 'expert' => false,
                 'description' => false,
@@ -39,7 +39,7 @@ echo "\n" . DeepLinksChannel::generate_one_to_one_chat_link(
                 'text_expert' => "#000000",
                 'text_description' => "#000000",
                 'text_button' => "#ffffff",
-                'background' => "#ffffff",
+                'background' => "#f5f5f5",
                 'button' => "#24db27",
             ],
             'expert' => [

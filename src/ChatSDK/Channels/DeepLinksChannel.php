@@ -54,11 +54,11 @@ class DeepLinksChannel
 
         Client::make();
 
-        $enable_message = false;
+        $enable_message = "false";
         $notification_message = array();
 
         if($referrerMessage) {
-            $enable_message = true;
+            $enable_message = "true";
             $notification_message = array(
                 //base
                 'deep_link' => empty($referrerMessage['deep_link']) ? "" : urlencode($referrerMessage['deep_link']),
@@ -68,9 +68,9 @@ class DeepLinksChannel
                 'description' => empty($referrerMessage['description']) ? "" : $referrerMessage['description'],
 
                 //fonts
-                'bold_expert' => empty($referrerMessage['bolds']['expert']) ? false : $referrerMessage['bolds']['expert'],
-                'bold_description' => empty($referrerMessage['bolds']['description']) ? false : $referrerMessage['bolds']['description'],
-                'bold_button' => empty($referrerMessage['bolds']['button']) ? false : $referrerMessage['bolds']['button'],
+                'bold_expert' => empty($referrerMessage['bolds']['expert']) ? "false" : "{$referrerMessage['bolds']['expert']}",
+                'bold_description' => empty($referrerMessage['bolds']['description']) ? "false" : "{$referrerMessage['bolds']['description']}",
+                'bold_button' => empty($referrerMessage['bolds']['button']) ? "false" : "{$referrerMessage['bolds']['button']}",
 
                 //colors
                 'color_text_expert' => empty($referrerMessage['colors']['text_expert']) ? "#000000" : $referrerMessage['colors']['text_expert'],
@@ -80,30 +80,27 @@ class DeepLinksChannel
                 'color_button' => empty($referrerMessage['colors']['button']) ? "#24db27" : $referrerMessage['colors']['button'],
 
                 //expert
-                'expert_enabled' => empty($referrerMessage['expert']['name']) ? false : true,
+                'expert_enabled' => empty($referrerMessage['expert']['name']) ? "false" : "true",
                 'expert_image' => empty($referrerMessage['expert']['image']) ? "" : $referrerMessage['expert']['image'],
                 'expert_name' => empty($referrerMessage['expert']['name']) ? "" : $referrerMessage['expert']['name'],
                 'expert_title' => empty($referrerMessage['expert']['title']) ? "" : $referrerMessage['expert']['title'],
                 'expert_subtitle' => empty($referrerMessage['expert']['subtitle']) ? "" : $referrerMessage['expert']['subtitle'],
 
                 //image
-                'image_enabled' => empty($referrerMessage['image']['url']) ? false : true,
+                'image_enabled' => empty($referrerMessage['image']['url']) ? "false" : "true",
                 'image' => empty($referrerMessage['image']['url']) ? "" : $referrerMessage['image']['url'],
                 'height' => empty($referrerMessage['image']['height']) ? "" : $referrerMessage['image']['height'],
                 'width' => empty($referrerMessage['image']['width']) ? "" : $referrerMessage['image']['width'],
             );
         }
 
-        $link = self::handle_url($desktopLink, self::handle_placeholders(array_merge(
-            $placeholders,
-            $notification_message
-        ), array(
+        $link = self::handle_url($desktopLink, self::handle_placeholders($placeholders, array_merge($notification_message, array(
             'service_id' => Client::get('id'),
             'mode' => 'one-to-one-chat',
             'slug' => urlencode($accountSlug),
             'enable_message' => $enable_message,
             'web_uuid' => $webUuid,
-        )));
+        ))));
 
         return self::generate($link, $analyticsInfo, $socialInfo);
     }
