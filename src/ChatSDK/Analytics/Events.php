@@ -6,16 +6,18 @@ namespace ChatSDK\Analytics;
 
 class Events
 {
-    private $uuid;
+    private $campaign_id;
     private $events = [];
 
-    public function __construct($uuid)
+    public function __construct($campaign_id)
     {
-        $this->uuid = $uuid;
+        $this->campaign_id = $campaign_id;
     }
 
-    public function logEvent($event_name) {
-        $this->events[$event_name] = $event_name;
+    public function logEvent($event_name, $params = []) {
+        if($event_name && is_array($params)) {
+            $this->events[$event_name] = $params;
+        }
     }
 
     private function scriptTag($arg) {
@@ -78,21 +80,21 @@ INIT;
 
     public function render($return = null) {
 
-        if($this->uuid) {
+        if($this->campaign_id) {
             $html = $this->scriptTagWithSrc('https://www.gstatic.com/firebasejs/8.2.7/firebase-app.js');
             $html .= $this->scriptTagWithSrc('https://www.gstatic.com/firebasejs/8.2.7/firebase-analytics.js');
             $html .= $this->scriptTagWithContent($this->getFirebaseConfiguration());
 
-            foreach ($this->events as $event_name) {
+            foreach ($this->events as $event_name => $params) {
                 $html .= $this->scriptTagWithEvent([
                     'name' => $event_name,
-                    'params' => [
-                        'tracking-uuid' => $this->uuid
-                    ],
+                    'params' => array_merge($params, [
+                        'campaign_id' => $this->campaign_id
+                    ]),
                 ]);
             }
         } else {
-            $html = "Error no tracking-uuid";
+            $html = "Error no campaign id";
         }
 
         if($return) {

@@ -15,50 +15,56 @@ Config::make([
     'app_token' => config('APP_TOKEN')
 ]);
 
+echo "\n" . DeepLinksChannel::generate_webview_link(
+        'https://chat.jawab.app/web/view?campaign_id=JAWABKOM-ASSMA-1',
+        'https://chat.jawab.app/web/view?campaign_id=JAWABKOM-ASSMA-1',
+        'uuid-uuid-uuid'
+    ) . "\n";
+
 ////image
 //'image_enabled' => empty($referrerMessage['image']['url']) ? false : true,
 //'image' => empty($referrerMessage['image']['url']) ? "" : $referrerMessage['image']['url'],
 //'height' => empty($referrerMessage['image']['height']) ? "" : $referrerMessage['image']['height'],
 //'width' => empty($referrerMessage['image']['width']) ? "" : $referrerMessage['image']['width'],
 
-echo "\n" . DeepLinksChannel::generate_one_to_one_chat_link(
-        'https://www.jawabtaza.com/ar',
-        'Qanah',
-        [
-            'language' => 'ar',
-            'deep_link' => 'https://www.jawabtaza.com/ar/product/عنب-اخضر-مستورد-1-كجم/?v=fbe46383db39',
-            'notification_title' => 'عنب اخضر مستورد 🍇🍇🍇',
-            'button_title' => '🍇 button_title 🍇',
-            'description' => ' في أي محرك بحث ستظهر العديد من المواقع الحديثة العهد في نتائج البحث. على مدى السنين ظهرت نسخ جديدة ومختلفة من نص لوريم إيبسوم، أحياناً عن طريق الصدفة، وأحياناً عن عمد كإدخال بعض العبارات الفكاهية إليها.',
-            'bolds' => [
-                'expert' => false,
-                'description' => false,
-                'button' => false,
-            ],
-            'colors' => [
-                'text_expert' => "#000000",
-                'text_description' => "#000000",
-                'text_button' => "#ffffff",
-                'background' => "#f5f5f5",
-                'button' => "#24db27",
-            ],
-            'expert' => [
-                'name' => "",
-                'image' => "",
-                'title' => "",
-                'subtitle' => "",
-            ],
-            'image' => [
-                'url' => "https://www.jawabtaza.com/wp-content/uploads/2020/10/Green-Grapes-min.jpg",
-                'height' => "",
-                'width' => "",
-            ],
-        ],
-        'test-web-uuid',
-        [
-            'utm_medium' => 'deep-link test',
-        ]
-    ) . "\n";
+//echo "\n" . DeepLinksChannel::generate_one_to_one_chat_link(
+//        'https://www.jawabtaza.com/ar',
+//        'Qanah',
+//        [
+//            'language' => 'ar',
+//            'deep_link' => 'https://www.jawabtaza.com/ar/product/عنب-اخضر-مستورد-1-كجم/?v=fbe46383db39',
+//            'notification_title' => 'عنب اخضر مستورد 🍇🍇🍇',
+//            'button_title' => '🍇 اشتري الان 🍇',
+//            'description' => ' في أي محرك بحث ستظهر العديد من المواقع الحديثة العهد في نتائج البحث. على مدى السنين ظهرت نسخ جديدة ومختلفة من نص لوريم إيبسوم، أحياناً عن طريق الصدفة، وأحياناً عن عمد كإدخال بعض العبارات الفكاهية إليها.',
+//            'bolds' => [
+//                'expert' => false,
+//                'description' => false,
+//                'button' => false,
+//            ],
+//            'colors' => [
+//                'text_expert' => "#000000",
+//                'text_description' => "#000000",
+//                'text_button' => "#ffffff",
+//                'background' => "#f5f5f5",
+//                'button' => "#24db27",
+//            ],
+//            'expert' => [
+//                'name' => "",
+//                'image' => "",
+//                'title' => "",
+//                'subtitle' => "",
+//            ],
+//            'image' => [
+//                'url' => "https://www.jawabtaza.com/wp-content/uploads/2020/10/Green-Grapes-min.jpg",
+//                'height' => "",
+//                'width' => "",
+//            ],
+//        ],
+//        'test-web-uuid',
+//        [
+//            'utm_medium' => 'deep-link test',
+//        ]
+//    ) . "\n";
 
 //echo "\n" . DeepLinksChannel::generate_account_link(
 //        'https://trends.jawab.app/Qanah',
