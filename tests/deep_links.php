@@ -15,10 +15,11 @@ Config::make([
     'app_token' => config('APP_TOKEN')
 ]);
 
-echo "\n" . DeepLinksChannel::generate_webview_link(
+echo "\n" . DeepLinksChannel::generate_webview_subscription_link(
+        16,
         'https://chat.jawab.app/web/view?campaign_id=JAWABKOM-ASSMA-1',
         'https://chat.jawab.app/web/view?campaign_id=JAWABKOM-ASSMA-1',
-        'uuid-uuid-uuid'
+        'https://jawab.page.link/1rGphyVR5v5a8NSb9',
     ) . "\n";
 
 ////image

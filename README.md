@@ -208,3 +208,8 @@ Finally, once we are finished, we can exit supervisorctl with Ctrl-C or by enter
 supervisor> quit
 ```
 And that's it! You've mastered the basics of managing persistent programs through Supervisor and extending this to your own programs should be a relatively simple task. If you have any questions or further advice, be sure to leave it in the comments section.
+
+## Credits
+
+- [Ibraheem Qanah](https://github.com/Qanah)
+- [All Contributors](../../contributors)
